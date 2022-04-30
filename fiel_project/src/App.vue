@@ -14,4 +14,8 @@
 a {
   text-decoration: none;
 }
+@font-face {
+  font-family: Aquifer;
+  src: url("./assets/Aquifer.otf");
+}
 </style>
