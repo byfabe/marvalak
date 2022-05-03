@@ -1,6 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home" id="home">
     <Inventaire />
+      <p>{{ valueRoll }}</p>
     <div class="card" @click="fadeText">
       <div class="card-wrapper">
         <div class="title">
@@ -17,10 +18,35 @@
           >
             {{ item.text }}
           </p>
+          <!-- AFFICHE LE COMBAT DEBUT-->
+          <div class="fight" v-if="this.event.fight === true">
+            <p>{{ event.name }}</p>
+            <p>Force: {{ event.strength }}</p>
+            <p>Lancez le dés !</p>
+            <p v-if="this.fightTrigger === true">
+              Vous de force {{ youResult }} <i class="fa-solid fa-khanda"></i>
+              {{ event.name }} de force {{ event.strength }}
+            </p>
+            <p
+              class="choice"
+              v-if="this.win === true"
+              @click="direction(event.result.win)"
+            >
+              {{ event.result.win.text }}
+            </p>
+            <p
+              class="choice"
+              v-if="this.lose === true"
+              @click="direction(event.result.lose)"
+            >
+              {{ event.result.lose.text }}
+            </p>
+          </div>
+          <!-- AFFICHE LE COMBAT FIN-->
         </div>
       </div>
     </div>
-    <Dice />
+    <Dice @diceValue="diceValueRoll" />
   </div>
 </template>
 
@@ -28,6 +54,7 @@
 import Inventaire from "@/components/Inventaire.vue";
 import Dice from "@/components/Dice.vue";
 import * as event from "@/assets/event.js";
+import * as bestiary from "@/assets/bestiary.js";
 export default {
   name: "HomeView",
   components: {
@@ -36,18 +63,47 @@ export default {
   },
   data() {
     return {
+      //current event
       event: event.intro_0_0,
+
+      //Inventory
+      force: 1,
+
+      //Fight
+      fightTrigger: false,
+      valueRoll: undefined,
+      youResult: undefined,
+      win: false,
+      lose: false,
     };
   },
   methods: {
     //Importe le nouvel objet dans "this.event" selon la valeur de la clé "direction"
     direction(item) {
-      this.event = event[item.direction];
-      if (this.event.test) {
-        console.log("trigger");
+      if (item.direction.includes("intro")) {
+        this.event = event[item.direction];
+      }
+      //Si l'event est un combat
+      if (item.direction.includes("bestiary")) {
+        this.event = bestiary[item.direction];
       }
     },
-
+    fight() {
+      this.youResult = this.force + this.valueRoll;
+      if (this.youResult > this.event.strength) {
+        this.win = true;
+      }
+      if (this.youResult < this.event.strength) {
+        this.lose = true;
+      }
+    },
+    diceValueRoll(value) {
+      if (this.valueRoll === undefined) {
+        this.valueRoll = value;
+        this.fight();
+        this.fightTrigger = true;
+      }
+    },
     //Fondu du texte pendant les transitions
     fadeText() {
       let p = document.querySelectorAll("p");

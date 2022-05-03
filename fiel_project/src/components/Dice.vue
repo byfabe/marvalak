@@ -1,33 +1,57 @@
 <template>
   <div class="container-dice">
     <div class="dice-wrapper">
-      <img :src="require(`@/assets/dice6/${srcDice}`)" alt="" />
+      <img
+        :src="require(`@/assets/dice6/inverted-dice-${resultDice}.svg`)"
+        alt=""
+      />
     </div>
-    <button @click="rollDice">Lancer le dés</button>
   </div>
 </template>
 
 <script>
+import { gsap } from "gsap";
+import { Draggable } from "gsap/Draggable";
+gsap.registerPlugin(Draggable);
 export default {
   data() {
     return {
-        srcDice: "inverted-dice-1.svg"
+      resultDice: 1,
     };
   },
   methods: {
-      rollDice() {
-          let dice = [
-              "inverted-dice-1.svg",
-              "inverted-dice-2.svg",
-              "inverted-dice-3.svg",
-              "inverted-dice-4.svg",
-              "inverted-dice-5.svg",
-              "inverted-dice-6.svg",
-          ]
-          let diceResult = dice[Math.floor(Math.random() * dice.length)];
-          this.srcDice = diceResult;
-          console.log(diceResult);
-      },
+    //Fonction pour avoir un chiffre aléatoire entre 1 et 6  
+    rollDice() {
+      let dice = [1, 2, 3, 4, 5, 6];
+      let diceResult = dice[Math.floor(Math.random() * dice.length)];
+      this.resultDice = diceResult;
+    },
+    //Rend le dés draggable et à la fin du drag lance la fonction rollDice
+    diceDraggable() {
+      Draggable.create(".container-dice", {
+        type: "x,y",
+        edgeResistance: 1,
+        bounds: document.getElementById("home"),
+        inertia: true,
+        onClick: function () {
+          console.log("clicked");
+        },
+        onDragEnd: () => {
+          const tl = gsap.timeline();
+          tl.from(".container-dice", {
+            opacity: 0.5,
+            scale: 0.8,
+            ease: "bounce",
+            duration: 0.5,
+          });
+          this.rollDice();
+          this.$emit("diceValue", this.resultDice);
+        },
+      });
+    },
+  },
+  mounted() {
+    this.diceDraggable();
   },
 };
 </script>
@@ -36,8 +60,7 @@ export default {
 .container-dice {
   position: absolute;
   bottom: 0;
-  right: 50%;
-  transform: translateX(50%);
+  left: 0;
   & .dice-wrapper {
     width: 85px;
     height: 85px;
@@ -47,6 +70,12 @@ export default {
       border-radius: 10px;
       margin: 5px;
     }
+  }
+  & button {
+    margin: 10% 0;
+    background: none;
+    border: none;
+    font-size: 30px;
   }
 }
 </style>
