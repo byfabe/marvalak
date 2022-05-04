@@ -1,7 +1,6 @@
 <template>
   <div class="home" id="home">
     <Inventaire />
-      <p>{{ valueRoll }}</p>
     <div class="card" @click="fadeText">
       <div class="card-wrapper">
         <div class="title">
@@ -22,7 +21,7 @@
           <div class="fight" v-if="this.event.fight === true">
             <p>{{ event.name }}</p>
             <p>Force: {{ event.strength }}</p>
-            <p>Lancez le dés !</p>
+            <p v-if="this.fightTrigger != true">Lancez le dés !</p>
             <p v-if="this.fightTrigger === true">
               Vous de force {{ youResult }} <i class="fa-solid fa-khanda"></i>
               {{ event.name }} de force {{ event.strength }}
@@ -87,7 +86,14 @@ export default {
       if (item.direction.includes("bestiary")) {
         this.event = bestiary[item.direction];
       }
+      //Reset la value des fight
+      this.fightTrigger = false;
+      this.valueRoll = undefined;
+      this.win = false;
+      this.lose = false;
     },
+    //Après le lancé de dés calcul le résultat du dés et des caractéristiques du personnage
+    //et compare le résultat avec celui de la créature et renvoi true selon la victoire ou la défaite
     fight() {
       this.youResult = this.force + this.valueRoll;
       if (this.youResult > this.event.strength) {
@@ -97,6 +103,7 @@ export default {
         this.lose = true;
       }
     },
+    //Récupère la valeur du dés, lance le résultat du combat après le lancé du dés
     diceValueRoll(value) {
       if (this.valueRoll === undefined) {
         this.valueRoll = value;
@@ -130,9 +137,13 @@ export default {
   width: 100%;
   height: 100vh;
   background: #412407;
+  background-image: url("../assets/back2-1.png");
+  background-size: cover;
   & .card {
-    width: 25%;
-    height: 65%;
+    // width: 25%;
+    // height: 65%;
+    width: 480px;
+    height: 603px;
     font-family: Aquifer;
     color: #f1f1f1;
     font-size: 18px;
@@ -140,10 +151,13 @@ export default {
     color: rgba(0, 0, 0, 0.795);
     padding: 1%;
     border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
     & .card-wrapper {
       height: 100%;
       background: #e8bd74;
-      border-radius: 1px;
+      background-image: url("../assets/paper4.jpg");
+      background-size: cover;
+      border-radius: 3px;
       padding: 2%;
       & .title {
         font-weight: bold;

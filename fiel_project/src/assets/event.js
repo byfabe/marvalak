@@ -16,6 +16,6 @@ export const intro_0_0 = {
 };
 
 export const intro_0_1 = {
-  text: "Je continue mon chemin !!",
+  text: "Vous continuez votre route.",
   
 };

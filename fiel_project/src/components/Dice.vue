@@ -16,7 +16,7 @@ gsap.registerPlugin(Draggable);
 export default {
   data() {
     return {
-      resultDice: 1,
+      resultDice: 6,
     };
   },
   methods: {
@@ -59,8 +59,8 @@ export default {
 <style lang="scss" scoped>
 .container-dice {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 7%;
+  left: 25%;
   & .dice-wrapper {
     width: 85px;
     height: 85px;

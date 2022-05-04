@@ -37,24 +37,32 @@
 <style lang="scss" scoped>
 .container-inventory {
   position: absolute;
-  left: 0;
+  left: -1%;
+  bottom: 5%;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 18%;
+  width: 25%;
   min-width: 250px;
-  height: 60%;
+  height: 80%;
   min-height: 450px;
   margin-left: 1%;
-  background-image: url("../assets/inventorybg.png");
+  background-image: url("../assets/oldpaper2.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   font-family: Aquifer;
   color: rgba(0, 0, 0, 0.795);
+  transform: rotate(-2deg) translateX(-80%);
+  transition: 0.3s ease-in-out;
+  &:hover {
+    transform: translateX(0) rotate(0deg);
+    transition: 0.3s ease-in-out;
+  }
   & .inventory {
     width: 85%;
     height: 75%;
+    margin-left: 10%;
     & h2 {
       font-size: clamp(5px, 2.5vw, 22px);
     }
