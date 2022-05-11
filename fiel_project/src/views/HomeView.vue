@@ -1,19 +1,24 @@
 <template>
   <div class="home" id="home">
+    <div id="dice-box"></div>
     <Inventaire />
-    <div class="card" @click="fadeText">
+    <div class="card">
       <div class="card-wrapper">
+        <!-- TITRE -->
         <div class="title">
           <p>Rencontre avec le diable.</p>
         </div>
         <div class="illustration"></div>
         <div class="text">
+          <!-- TEXT/CONTEXTE -->
           <p class="story">{{ event.text }}</p>
+
+          <!-- LES CHOIX -->
           <p
             class="choice"
             v-for="item in event.choice"
             :key="item"
-            @click="direction(item)"
+            @click="direction(item), fadeText()"
           >
             {{ item.text }}
           </p>
@@ -21,22 +26,36 @@
           <div class="fight" v-if="this.event.fight === true">
             <p>{{ event.name }}</p>
             <p>Force: {{ event.strength }}</p>
-            <p v-if="this.fightTrigger != true">Lancez le dés !</p>
+
+            <!-- LANCE LE DES -->
+            <p
+              v-if="this.fightTrigger != true"
+              @click="diceRoll"
+              class="roll-dice-text"
+            >
+              Lancez le dés !
+            </p>
+
+            <!-- RESULTAT DU COMBAT -->
             <p v-if="this.fightTrigger === true">
               Vous de force {{ youResult }} <i class="fa-solid fa-khanda"></i>
               {{ event.name }} de force {{ event.strength }}
             </p>
+
+            <!-- CHOIX DE LA VICTOIRE -->
             <p
               class="choice"
               v-if="this.win === true"
-              @click="direction(event.result.win)"
+              @click="direction(event.result.win), fadeText()"
             >
               {{ event.result.win.text }}
             </p>
+
+            <!-- CHOIX DE LA DEFAITE -->
             <p
               class="choice"
               v-if="this.lose === true"
-              @click="direction(event.result.lose)"
+              @click="direction(event.result.lose), fadeText()"
             >
               {{ event.result.lose.text }}
             </p>
@@ -45,7 +64,8 @@
         </div>
       </div>
     </div>
-    <Dice @diceValue="diceValueRoll" />
+    <!-- <Dice @diceValue="diceValueRoll" /> -->
+    <button @click="diceRoll">ICI</button>
   </div>
 </template>
 
@@ -54,7 +74,10 @@ import Inventaire from "@/components/Inventaire.vue";
 import Dice from "@/components/Dice.vue";
 import * as event from "@/assets/event.js";
 import * as bestiary from "@/assets/bestiary.js";
+import DiceBox from "@3d-dice/dice-box";
+
 export default {
+  setup() {},
   name: "HomeView",
   components: {
     Inventaire,
@@ -66,6 +89,7 @@ export default {
       event: event.intro_0_0,
 
       //Inventory
+      test: "test",
       force: 1,
 
       //Fight
@@ -77,6 +101,32 @@ export default {
     };
   },
   methods: {
+    //Lance le dés, si "valueRoll" n'a pas de valeur, lance fight()
+    diceRoll() {
+      if (!document.querySelector("canvas")) {
+        //Nouvelle instance
+        const diceBox = new DiceBox("#dice-box", {
+          assetPath: "/assets/dice-box/",
+          scale: "4",
+        });
+        diceBox.init().then(() => {
+          diceBox.roll("1d6").then((results) => {
+            //Récupère la valeur du dés, lance le résultat du combat après le lancé du dés
+            if (this.valueRoll === undefined) {
+              this.valueRoll = results[0].value;
+              this.fight();
+              this.fightTrigger = true;
+            }
+          });
+        });
+        //Efface le dés après 5s
+        setTimeout(() => {
+          let canvas = document.querySelector("canvas");
+          canvas.remove();
+        }, 5000);
+      }
+    },
+
     //Importe le nouvel objet dans "this.event" selon la valeur de la clé "direction"
     direction(item) {
       if (item.direction.includes("intro")) {
@@ -92,10 +142,11 @@ export default {
       this.win = false;
       this.lose = false;
     },
+
     //Après le lancé de dés calcul le résultat du dés et des caractéristiques du personnage
     //et compare le résultat avec celui de la créature et renvoi true selon la victoire ou la défaite
     fight() {
-      this.youResult = this.force + this.valueRoll;
+      this.youResult = this.force + this.valueRoll; //>=
       if (this.youResult > this.event.strength) {
         this.win = true;
       }
@@ -103,33 +154,37 @@ export default {
         this.lose = true;
       }
     },
-    //Récupère la valeur du dés, lance le résultat du combat après le lancé du dés
-    diceValueRoll(value) {
-      if (this.valueRoll === undefined) {
-        this.valueRoll = value;
-        this.fight();
-        this.fightTrigger = true;
-      }
-    },
+
+    //EXEMPLE PARENT/ENFANT
+    // diceValueRoll(value) {
+    //   if (this.valueRoll === undefined) {
+    //     this.valueRoll = value;
+    //     this.fight();
+    //     this.fightTrigger = true;
+    //   }
+    // },
+
     //Fondu du texte pendant les transitions
     fadeText() {
-      let p = document.querySelectorAll("p");
-      for (const i in p) {
-        if (p[i].classList === undefined) {
-          return;
-        }
-        p[i].classList.add("anim");
+      let p = document.querySelector(".text");
+      p.classList.add("anim");
 
-        setTimeout(() => {
-          p[i].classList.remove("anim");
-        }, 900);
-      }
+      setTimeout(() => {
+        p.classList.remove("anim");
+      }, 900);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+#dice-box {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+}
 .home {
   display: flex;
   justify-content: center;
@@ -151,7 +206,9 @@ export default {
     color: rgba(0, 0, 0, 0.795);
     padding: 1%;
     border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     & .card-wrapper {
       height: 100%;
       background: #e8bd74;
@@ -177,6 +234,9 @@ export default {
       & p {
         white-space: break-spaces;
         margin-left: 0.5%;
+      }
+      & .roll-dice-text {
+        cursor: pointer;
       }
       & .choice {
         cursor: pointer;

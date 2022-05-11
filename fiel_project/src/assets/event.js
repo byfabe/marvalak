@@ -1,3 +1,8 @@
+//import store from '../store/index'
+//console.log(store.state.name);
+
+//export const direction = {};
+
 export const intro_0_0 = {
   text: "Vous vous réveillez dans ce qui vous semble être une cave, l'odeur de la vinasse, la pénombre et l'humidité de la pierre vous sont familières. Des voix retentissent du haut d'un escalier:",
   choice: {
@@ -16,6 +21,7 @@ export const intro_0_0 = {
 };
 
 export const intro_0_1 = {
-  text: "Vous continuez votre route.",
-  
+  text: "Vous continuez votre route",
 };
+
+//event retroactif, stocker event dans perso

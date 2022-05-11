@@ -1,9 +1,10 @@
 <template>
   <div class="container-inventory">
+    <!-- CHARACTER SHEET -->
     <div class="inventory">
       <h2>Feuille du personnage</h2>
       <div class="name">
-        <span>Gurthang ~ le fer de la mort</span>
+        <span>{{ name }}</span>
         <ul>
           <li>
             <i class="fa-solid fa-shield-heart"></i> Point de vie:
@@ -30,9 +31,77 @@
           <i class="fa-solid fa-face-smile"></i><span> Calme</span>
         </div>
       </div>
+      <div class="backpack">
+        <img
+          src="../assets/backpack.png"
+          alt=""
+          @click="
+            hiddenSwitch();
+            fadeText();
+          "
+        />
+      </div>
+    </div>
+    <!-- BACKPACK -->
+    <div class="inventory-backpack hidden">
+      <h2>Sac à dos</h2>
+      <div class="stuff">
+        <h3><i class="ri-sword-fill"></i> Armes</h3>
+        <span>Arc d'os +2 -</span>
+      </div>
+      <div class="stuff">
+        <h3><i class="fa-solid fa-shield"></i> Armures</h3>
+        <span>Casque de cuir +1 -</span>
+        <span>Armure elfique +3 -</span>
+      </div>
+      <div class="stuff">
+        <h3><i class="fa-solid fa-chess"></i> Objets</h3>
+        <span>Médaillon sacrée -</span>
+        <span>Ragoût nain -</span>
+      </div>
+      <div class="stuff">
+        <h3><i class="ri-key-2-fill"></i> Clef</h3>
+        <span>Clef démoniaque -</span>
+      </div>
+      <div class="backpack">
+        <img
+          src="../assets/letter.png"
+          alt=""
+          @click="
+            hiddenSwitch();
+            fadeText();
+          "
+        />
+      </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      name: "Gurthang ~ le fer de la mort",
+    }
+  },
+  methods: {
+    //Switch l'affichage de l'inventaire
+    hiddenSwitch() {
+      let inventory = document.querySelector(".inventory");
+      let backpack = document.querySelector(".inventory-backpack");
+      inventory.classList.toggle("hidden");
+      backpack.classList.toggle("hidden");
+    },
+    //Fondu du texte pendant les transitions
+    fadeText() {
+      let inventory = document.querySelector(".inventory");
+      let backpack = document.querySelector(".inventory-backpack");
+      inventory.classList.add("anim");
+      backpack.classList.add("anim");
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .container-inventory {
@@ -110,6 +179,58 @@
         }
       }
     }
+    .backpack {
+      position: absolute;
+      bottom: 7%;
+      left: 10%;
+      & img {
+        width: 60px;
+        cursor: pointer;
+      }
+    }
+  }
+  & .inventory-backpack {
+    width: 85%;
+    height: 75%;
+    margin-left: 10%;
+    & h2 {
+      font-size: clamp(5px, 2.5vw, 22px);
+      margin-bottom: 8%;
+    }
+    & .stuff {
+      margin-top: 5%;
+      & h3 {
+        margin-bottom: 10px;
+      }
+      & span {
+        display: inline-block;
+        //font-weight: bold;
+        margin-right: 15px;
+      }
+    }
+    .backpack {
+      position: absolute;
+      bottom: 7%;
+      left: 10%;
+      & img {
+        width: 60px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.hidden {
+  display: none;
+}
+.anim {
+  animation: fade 0.5s ease-in-out;
+}
+@keyframes fade {
+  0% {
+    color: transparent;
+  }
+  100% {
+    color: rgba(0, 0, 0, 0.795);
   }
 }
 </style>
