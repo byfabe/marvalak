@@ -65,7 +65,12 @@
       </div>
     </div>
     <!-- <Dice @diceValue="diceValueRoll" /> -->
-    <button @click="diceRoll">ICI</button>
+    <img
+      class="dice-roll-img"
+      src="@/assets/diceroll.png"
+      alt=""
+      @click="diceRoll"
+    />
   </div>
 </template>
 
@@ -77,7 +82,6 @@ import * as bestiary from "@/assets/bestiary.js";
 import DiceBox from "@3d-dice/dice-box";
 
 export default {
-  setup() {},
   name: "HomeView",
   components: {
     Inventaire,
@@ -98,6 +102,9 @@ export default {
       youResult: undefined,
       win: false,
       lose: false,
+
+      //Audio
+      mute: false,
     };
   },
   methods: {
@@ -124,9 +131,14 @@ export default {
           let canvas = document.querySelector("canvas");
           canvas.remove();
         }, 5000);
+
+        //Lecture de l'audio 
+        if (this.mute === false) {
+          let audio = new Audio(require("@/assets/sounds/dice.mp3"));
+          audio.play();
+        }
       }
     },
-
     //Importe le nouvel objet dans "this.event" selon la valeur de la clé "direction"
     direction(item) {
       if (item.direction.includes("intro")) {
@@ -136,6 +148,13 @@ export default {
       if (item.direction.includes("bestiary")) {
         this.event = bestiary[item.direction];
       }
+
+      //Lecture de l'audio de l'event si mute = "false"
+      if (this.mute === false) {
+        let audio = new Audio(require("@/assets/sounds/" + this.event.audio));
+        audio.play();
+      }
+
       //Reset la value des fight
       this.fightTrigger = false;
       this.valueRoll = undefined;
@@ -147,7 +166,7 @@ export default {
     //et compare le résultat avec celui de la créature et renvoi true selon la victoire ou la défaite
     fight() {
       this.youResult = this.force + this.valueRoll; //>=
-      if (this.youResult > this.event.strength) {
+      if (this.youResult >= this.event.strength) {
         this.win = true;
       }
       if (this.youResult < this.event.strength) {
@@ -174,6 +193,7 @@ export default {
       }, 900);
     },
   },
+  mounted() {},
 };
 </script>
 
@@ -249,6 +269,13 @@ export default {
         margin-left: 50px;
       }
     }
+  }
+  & .dice-roll-img {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    width: 5%;
+    cursor: pointer;
   }
 }
 @keyframes fade {
