@@ -5,27 +5,53 @@
     <div class="card">
       <div class="card-wrapper">
         <!-- TITRE -->
-        <div class="title">
+        <!-- <div class="title">
           <p>Rencontre avec le diable.</p>
+        </div> -->
+        <!-- <div class="illustration"></div> -->
+
+        <!-- ICONES DES EVENEMENTS -->
+        <div class="logo">
+          <img
+            class="book"
+            v-if="this.event.fight != true"
+            src="../assets/storyEvent2.png"
+            alt=""
+          />
+          <img
+            class="sword"
+            v-if="this.event.fight === true"
+            src="../assets/fightEvent.png"
+            alt=""
+          />
         </div>
-        <div class="illustration"></div>
+
+        <!-- TOUT LE TEXTE -->
         <div class="text">
-          <!-- TEXT/CONTEXTE -->
-          <p class="story">{{ event.text }}</p>
+
+          <!-- HISTOIRE // TEXTE D'AMBIANCE -->
+          <p class="story" v-if="this.fightTrigger === false">
+            {{ event.text }}
+          </p>
 
           <!-- LES CHOIX -->
           <p
             class="choice"
-            v-for="item in event.choice"
+            v-for="item in event.choices"
             :key="item"
             @click="direction(item), fadeText()"
           >
             {{ item.text }}
           </p>
+
           <!-- AFFICHE LE COMBAT DEBUT-->
           <div class="fight" v-if="this.event.fight === true">
-            <p>{{ event.name }}</p>
-            <p>Force: {{ event.strength }}</p>
+            <p class="fight-name" v-if="this.fightTrigger === false">
+              {{ event.name }}
+              <i class="fa-solid fa-khanda"></i>
+              <i :class="event.strengthDice"></i>
+            </p>
+            <p class="fight-strength"></p>
 
             <!-- LANCE LE DES -->
             <p
@@ -33,34 +59,45 @@
               @click="diceRoll"
               class="roll-dice-text"
             >
-              Lancez le dés !
+              Lancez le <i class="fa-solid fa-dice-d6"></i> !
             </p>
 
             <!-- RESULTAT DU COMBAT -->
-            <p v-if="this.fightTrigger === true">
-              Vous de force {{ youResult }} <i class="fa-solid fa-khanda"></i>
-              {{ event.name }} de force {{ event.strength }}
-            </p>
+            <div class="result-fight" v-if="this.fightTrigger === true">
+              <div class="score-result">
+                <span>Vous</span>
+                <div class="icon-result">
+                  <i class="fa-solid fa-khanda"></i>{{ youResult }}
+                </div>
+              </div>
+              <div class="score-result">
+                <span>{{ event.name }}</span>
+                <div class="icon-result">
+                  <i class="fa-solid fa-khanda"></i>{{ event.strength }}
+                </div>
+              </div>
 
-            <!-- CHOIX DE LA VICTOIRE -->
-            <p
-              class="choice"
-              v-if="this.win === true"
-              @click="direction(event.result.win), fadeText()"
-            >
-              {{ event.result.win.text }}
-            </p>
+              <!-- CHOIX DE LA VICTOIRE -->
+              <p
+                class="choice"
+                v-if="this.win === true"
+                @click="direction(event.result.win), fadeText()"
+              >
+                {{ event.result.win.text }}
+              </p>
 
-            <!-- CHOIX DE LA DEFAITE -->
-            <p
-              class="choice"
-              v-if="this.lose === true"
-              @click="direction(event.result.lose), fadeText()"
-            >
-              {{ event.result.lose.text }}
-            </p>
+              <!-- CHOIX DE LA DEFAITE -->
+              <p
+                class="choice"
+                v-if="this.lose === true"
+                @click="direction(event.result.lose), fadeText()"
+              >
+                {{ event.result.lose.text }}
+              </p>
+            </div>
           </div>
           <!-- AFFICHE LE COMBAT FIN-->
+
         </div>
       </div>
     </div>
@@ -123,6 +160,7 @@ export default {
               this.valueRoll = results[0].value;
               this.fight();
               this.fightTrigger = true;
+              this.fadeText();
             }
           });
         });
@@ -132,7 +170,7 @@ export default {
           canvas.remove();
         }, 5000);
 
-        //Lecture de l'audio 
+        //Lecture de l'audio
         if (this.mute === false) {
           let audio = new Audio(require("@/assets/sounds/dice.mp3"));
           audio.play();
@@ -149,8 +187,8 @@ export default {
         this.event = bestiary[item.direction];
       }
 
-      //Lecture de l'audio de l'event si mute = "false"
-      if (this.mute === false) {
+      //Lecture de l'audio de l'event si mute === "false"
+      if (this.mute === false && this.event.audio) {
         let audio = new Audio(require("@/assets/sounds/" + this.event.audio));
         audio.play();
       }
@@ -165,7 +203,7 @@ export default {
     //Après le lancé de dés calcul le résultat du dés et des caractéristiques du personnage
     //et compare le résultat avec celui de la créature et renvoi true selon la victoire ou la défaite
     fight() {
-      this.youResult = this.force + this.valueRoll; //>=
+      this.youResult = this.force + this.valueRoll;
       if (this.youResult >= this.event.strength) {
         this.win = true;
       }
@@ -239,6 +277,14 @@ export default {
       & .title {
         font-weight: bold;
       }
+      & .logo {
+        display: flex;
+        justify-content: center;
+        margin: 6% 0;
+        & img {
+          width: 100%;
+        }
+      }
       & .illustration {
         width: 100%;
         height: 50%;
@@ -249,18 +295,39 @@ export default {
         margin: 2% 0;
       }
       & .story {
-        margin-top: 3%;
+        margin: 10% 0;
+        line-height: 25px;
       }
       & p {
-        white-space: break-spaces;
-        margin-left: 0.5%;
-      }
-      & .roll-dice-text {
-        cursor: pointer;
+        padding: 0 4%;
+        //white-space: pre-line;
       }
       & .choice {
         cursor: pointer;
         margin-top: 2%;
+        font-weight: bold;
+      }
+      & .fight {
+        & .roll-dice-text {
+          margin: 5% 0;
+          cursor: pointer;
+          font-weight: bold;
+        }
+        & .result-fight {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 5% 0;
+          & .score-result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 7%;
+            & span {
+              font-size: 22px;
+            }
+          }
+        }
       }
       .anim {
         animation: fade 0.9s ease-in-out;

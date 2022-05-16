@@ -1,14 +1,14 @@
 export const bestiary_0_0 = {
   audio: "heavyDoorOpen.mp3",
   text: "Une créature aux dents longues s'avance vers vous, le combat commence. ",
-  choice: {
+  choices: {
     choice1: {
-      text: "֎ vous tentez de prendre la fuite.",
+      text: "vous tentez de prendre la fuite",
       direction: "bestiary_0_1",
     },
     conjunction: { text: "ou" },
     choice2: {
-      text: "֎ vous vous préparez au combat.",
+      text: "vous vous préparez au combat.",
       direction: "bestiary_0_2",
     },
   },
@@ -30,18 +30,19 @@ export const bestiary_0_1 = {
 };
 
 export const bestiary_0_2 = {
-  audio: "Violin.wav",
-  text: "Combat",
+  text: "Vous vous préparez au combat.",
   name: "Chimère aux dents longues",
   strength: 4,
+  strengthDice: "fa-solid fa-dice-four",
+  hability: "force",
   fight: true,
   result: {
     win: {
-      text: "֎ win ok",
+      text: "Vous gagnez le combat.",
       direction: "intro_0_1",
     },
     lose: {
-      text: "֎ win ko",
+      text: "Vous perdez le combat.",
       direction: "intro_0_1",
     },
   },

@@ -31,9 +31,9 @@
           <i class="fa-solid fa-face-smile"></i><span> Calme</span>
         </div>
       </div>
-      <div class="backpack">
+      <div class="arrow">
         <img
-          src="../assets/backpack.png"
+          src="../assets/arrow.png"
           alt=""
           @click="
             hiddenSwitch();
@@ -63,9 +63,9 @@
         <h3><i class="ri-key-2-fill"></i> Clef</h3>
         <span>Clef démoniaque -</span>
       </div>
-      <div class="backpack">
+      <div class="arrow">
         <img
-          src="../assets/letter.png"
+          src="../assets/arrow.png"
           alt=""
           @click="
             hiddenSwitch();
@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       name: "Gurthang ~ le fer de la mort",
-    }
+    };
   },
   methods: {
     //Switch l'affichage de l'inventaire
@@ -127,6 +127,15 @@ export default {
   &:hover {
     transform: translateX(0) rotate(0deg);
     transition: 0.3s ease-in-out;
+  }
+  .arrow {
+    position: absolute;
+    bottom: 7%;
+    left: 40%;
+    & img {
+      width: 70px;
+      cursor: pointer;
+    }
   }
   & .inventory {
     width: 85%;
@@ -179,15 +188,6 @@ export default {
         }
       }
     }
-    .backpack {
-      position: absolute;
-      bottom: 7%;
-      left: 10%;
-      & img {
-        width: 60px;
-        cursor: pointer;
-      }
-    }
   }
   & .inventory-backpack {
     width: 85%;
@@ -206,15 +206,6 @@ export default {
         display: inline-block;
         //font-weight: bold;
         margin-right: 15px;
-      }
-    }
-    .backpack {
-      position: absolute;
-      bottom: 7%;
-      left: 10%;
-      & img {
-        width: 60px;
-        cursor: pointer;
       }
     }
   }
