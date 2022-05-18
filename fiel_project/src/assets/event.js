@@ -52,19 +52,3 @@ export const intro_0_2 = new eventAudio(
   //Audio
   "heavyDoorOpen.mp3"
 );
-
-// audio: "Violin.wav",
-// text: "Vous vous réveillez dans ce qui vous semble être une cave, l'odeur de la vinasse, la pénombre et l'humidité de la pierre vous sont familières. Des voix retentissent du haut d'un escalier:",
-// choice: {
-//   choice1: {
-//     text: "֎ vous montez ce dernier sans plus attendre",
-//     direction: "bestiary_0_0",
-//     force: 1,
-//   },
-//   conjunction: { text: "ou" },
-//   choice2: {
-//     text: "֎ vous préférez tendre l'oreille.",
-//     direction: "intro_0_2",
-//     object: "Vieux bibelot",
-//   },
-// },

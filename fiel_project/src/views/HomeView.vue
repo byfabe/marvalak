@@ -4,31 +4,26 @@
     <Inventaire />
     <div class="card">
       <div class="card-wrapper">
-        <!-- TITRE -->
-        <!-- <div class="title">
-          <p>Rencontre avec le diable.</p>
-        </div> -->
         <!-- <div class="illustration"></div> -->
 
         <!-- ICONES DES EVENEMENTS -->
         <div class="logo">
           <img
-            class="book"
+            class="book animImage"
             v-if="this.event.fight != true"
-            src="../assets/storyEvent2.png"
+            src="../assets/images/storyEvent2.png"
             alt=""
           />
           <img
-            class="sword"
+            class="sword animImage"
             v-if="this.event.fight === true"
-            src="../assets/fightEvent.png"
+            src="../assets/images/fightEvent.png"
             alt=""
           />
         </div>
 
-        <!-- TOUT LE TEXTE -->
+        <!-- TOUTE LA ZONE TEXTE DEBUT -->
         <div class="text">
-
           <!-- HISTOIRE // TEXTE D'AMBIANCE -->
           <p class="story" v-if="this.fightTrigger === false">
             {{ event.text }}
@@ -97,21 +92,17 @@
             </div>
           </div>
           <!-- AFFICHE LE COMBAT FIN-->
-
         </div>
+        <!-- TOUTE LA ZONE TEXTE FIN -->
       </div>
     </div>
+    <img class="castle" src="../assets/images/castle.png" alt="" />
     <!-- <Dice @diceValue="diceValueRoll" /> -->
-    <img
-      class="dice-roll-img"
-      src="@/assets/diceroll.png"
-      alt=""
-      @click="diceRoll"
-    />
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Inventaire from "@/components/Inventaire.vue";
 import Dice from "@/components/Dice.vue";
 import * as event from "@/assets/event.js";
@@ -183,7 +174,7 @@ export default {
         this.event = event[item.direction];
       }
       //Si l'event est un combat
-      if (item.direction.includes("bestiary")) {
+      else if (item.direction.includes("bestiary")) {
         this.event = bestiary[item.direction];
       }
 
@@ -203,11 +194,10 @@ export default {
     //Après le lancé de dés calcul le résultat du dés et des caractéristiques du personnage
     //et compare le résultat avec celui de la créature et renvoi true selon la victoire ou la défaite
     fight() {
-      this.youResult = this.force + this.valueRoll;
+      this.youResult = this.getInventory.force + this.valueRoll;
       if (this.youResult >= this.event.strength) {
         this.win = true;
-      }
-      if (this.youResult < this.event.strength) {
+      } else {
         this.lose = true;
       }
     },
@@ -231,11 +221,21 @@ export default {
       }, 900);
     },
   },
+  computed: {
+    ...mapGetters(["getInventory", "getCharacter"]),
+  },
   mounted() {},
 };
 </script>
 
 <style lang="scss" scoped>
+.castle {
+  position: absolute;
+  z-index: 100;
+  width: 20%;
+  right: 8%;
+  bottom: 10%;
+}
 #dice-box {
   position: fixed;
   pointer-events: none;
@@ -250,36 +250,21 @@ export default {
   width: 100%;
   height: 100vh;
   background: #412407;
-  background-image: url("../assets/back2-1.png");
-  background-size: cover;
+  background-image: url("../assets/images/bg50.png");
+  background-size: 100% 100vh;
+  background-position: center;
   & .card {
-    // width: 25%;
-    // height: 65%;
-    width: 480px;
-    height: 603px;
+    width: 25%;
+    height: 65%;
+    //width: 480px;
+    //height: 603px;
     font-family: Aquifer;
-    color: #f1f1f1;
     font-size: 18px;
-    background: #111111;
     color: rgba(0, 0, 0, 0.795);
-    padding: 1%;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     & .card-wrapper {
       height: 100%;
-      background: #e8bd74;
-      background-image: url("../assets/paper4.jpg");
-      background-size: cover;
-      border-radius: 3px;
       padding: 2%;
-      & .title {
-        font-weight: bold;
-      }
       & .logo {
-        display: flex;
-        justify-content: center;
         margin: 6% 0;
         & img {
           width: 100%;
@@ -288,7 +273,7 @@ export default {
       & .illustration {
         width: 100%;
         height: 50%;
-        background-image: url("../assets/01.jpg");
+        //background-image: url("../assets/01.jpg");
         background-size: cover;
         background-position: center;
         border: 2px solid #272727;
@@ -297,10 +282,10 @@ export default {
       & .story {
         margin: 10% 0;
         line-height: 25px;
+        //white-space: pre-line;
       }
       & p {
         padding: 0 4%;
-        //white-space: pre-line;
       }
       & .choice {
         cursor: pointer;
@@ -332,25 +317,27 @@ export default {
       .anim {
         animation: fade 0.9s ease-in-out;
       }
-      & button {
-        margin-left: 50px;
+      .animImage {
+        animation: fadeImage 0.9s ease-in-out;
       }
     }
   }
-  & .dice-roll-img {
-    position: absolute;
-    right: 5%;
-    top: 5%;
-    width: 5%;
-    cursor: pointer;
-  }
 }
+
 @keyframes fade {
   0% {
     color: transparent;
   }
   100% {
     color: rgba(0, 0, 0, 0.795);
+  }
+}
+@keyframes fadeImage {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 </style>

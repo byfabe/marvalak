@@ -1,26 +1,28 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    name: "Zheyn",
-    pv: 20,
-    gold: 0,
-    force: 1,
-    dexterity: 1,
-    concentration: 1,
-    erudition: 1,
-    humeur: "calme",
-    armes: [],
-    armures: [],
-    objets: [],
-    clef: [],
+    character: { name: "Gurthang", title: "~ le fer de la mort" },
+
+    inventory: {
+      pv: 20,
+      gold: 0,
+      force: 1,
+      dexterity: 1,
+      concentration: 1,
+      erudition: 1,
+      humeur: "calme",
+      armes: [],
+      armures: [],
+      objets: [],
+      clef: [],
+    },
   },
   getters: {
+    getInventory: (state) => state.inventory,
+    getCharacter: (state) => state.character,
   },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+  mutations: {},
+  actions: {},
+  modules: {},
+});

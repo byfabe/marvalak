@@ -4,36 +4,47 @@
     <div class="inventory">
       <h2>Feuille du personnage</h2>
       <div class="name">
-        <span>{{ name }}</span>
+        <span>{{ getCharacter.name }} {{ getCharacter.title}}</span>
         <ul>
           <li>
             <i class="fa-solid fa-shield-heart"></i> Point de vie:
-            <span class="pv">20</span>
+            <span class="pv">{{ getInventory.pv }}</span>
           </li>
-          <li><i class="fa-solid fa-coins"></i> Pièce d'or: <span>0</span></li>
+          <li>
+            <i class="fa-solid fa-coins"></i> Pièce d'or:
+            <span>{{ getInventory.gold }}</span>
+          </li>
         </ul>
       </div>
       <div class="caracteristique">
         <ul>
           <h3>Caractéristiques</h3>
-          <li><i class="fa-solid fa-khanda"></i> Force: <span>1</span></li>
-          <li><i class="fa-solid fa-bacon"></i> Dextérité: <span>3</span></li>
           <li>
-            <i class="fa-solid fa-hat-wizard"></i> Concentration: <span>1</span>
+            <i class="fa-solid fa-khanda"></i> Force:
+            <span>{{ getInventory.force }}</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-bacon"></i> Dextérité:
+            <span>{{ getInventory.dexterity }}</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-hat-wizard"></i> Concentration:
+            <span>{{ getInventory.concentration }}</span>
           </li>
           <li>
             <i class="fa-solid fa-book-journal-whills"></i> Érudition:
-            <span>2</span>
+            <span>{{ getInventory.erudition }}</span>
           </li>
         </ul>
         <div class="humeur">
           <h3>Humeur</h3>
-          <i class="fa-solid fa-face-smile"></i><span> Calme</span>
+          <i class="fa-solid fa-face-smile"></i
+          ><span>{{ getInventory.humeur }}</span>
         </div>
       </div>
       <div class="arrow">
         <img
-          src="../assets/arrow.png"
+          src="../assets/images/arrow.png"
           alt=""
           @click="
             hiddenSwitch();
@@ -47,25 +58,23 @@
       <h2>Sac à dos</h2>
       <div class="stuff">
         <h3><i class="ri-sword-fill"></i> Armes</h3>
-        <span>Arc d'os +2 -</span>
+        <span v-for="item in getInventory.armes" :key="item">{{ item }}</span>
       </div>
       <div class="stuff">
         <h3><i class="fa-solid fa-shield"></i> Armures</h3>
-        <span>Casque de cuir +1 -</span>
-        <span>Armure elfique +3 -</span>
+        <span v-for="item in getInventory.armures" :key="item">{{ item }}</span>
       </div>
       <div class="stuff">
         <h3><i class="fa-solid fa-chess"></i> Objets</h3>
-        <span>Médaillon sacrée -</span>
-        <span>Ragoût nain -</span>
+        <span v-for="item in getInventory.objets" :key="item">{{ item }}</span>
       </div>
       <div class="stuff">
         <h3><i class="ri-key-2-fill"></i> Clef</h3>
-        <span>Clef démoniaque -</span>
+        <span v-for="item in getInventory.clef" :key="item">{{ item }}</span>
       </div>
       <div class="arrow">
         <img
-          src="../assets/arrow.png"
+          src="../assets/images/arrow.png"
           alt=""
           @click="
             hiddenSwitch();
@@ -78,11 +87,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
-    return {
-      name: "Gurthang ~ le fer de la mort",
-    };
+    return {};
   },
   methods: {
     //Switch l'affichage de l'inventaire
@@ -100,6 +108,9 @@ export default {
       backpack.classList.add("anim");
     },
   },
+  computed: {
+    ...mapGetters(["getInventory", "getCharacter"]),
+  },
 };
 </script>
 
@@ -116,7 +127,7 @@ export default {
   height: 80%;
   min-height: 450px;
   margin-left: 1%;
-  background-image: url("../assets/oldpaper2.png");
+  background-image: url("../assets/images/oldpaper.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
