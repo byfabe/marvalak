@@ -9,7 +9,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  list-style: none;
+  //list-style: none;
 }
 a {
   text-decoration: none;
@@ -17,6 +17,10 @@ a {
 @font-face {
   font-family: Aquifer;
   src: url("./assets/Aquifer.otf");
+}
+@font-face {
+  font-family: antiqua;
+  src: url("./assets/antiqua.ttf");
 }
 canvas {
   position: fixed;

@@ -22,7 +22,11 @@ export default createStore({
     getInventory: (state) => state.inventory,
     getCharacter: (state) => state.character,
   },
-  mutations: {},
+  mutations: {
+    ADD_OBJECTS(state, data) {
+      state.inventory.objets.push(data);
+    },
+  },
   actions: {},
   modules: {},
 });

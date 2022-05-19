@@ -160,6 +160,7 @@ export default {
       margin: 8% 0;
       & span {
         font-weight: bold;
+        font-family: antiqua;
       }
       & ul {
         margin-top: 3%;
