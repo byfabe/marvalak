@@ -9,7 +9,13 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
   //list-style: none;
+  cursor: url("./assets/images/standard.cur"), auto;
 }
 a {
   text-decoration: none;

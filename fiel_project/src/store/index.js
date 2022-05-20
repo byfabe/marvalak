@@ -26,6 +26,9 @@ export default createStore({
     ADD_OBJECTS(state, data) {
       state.inventory.objets.push(data);
     },
+    ADD_PV(state, data) {
+      state.inventory.pv = data
+    },
   },
   actions: {},
   modules: {},

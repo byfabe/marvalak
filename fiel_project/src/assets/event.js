@@ -80,7 +80,7 @@ export const intro_1_0 = new event(
 export const intro_2_0 = new event(
   //Story
   `“Ah, encore vous !” s’exclame une vieille femme aux yeux noirs, les marques sur son visage laissent deviner son grand âge. 
-  Une grande capuche recouvre son corps voûté, elle vous tends sa main frêle et squelettique:`,
+  Une grande capuche recouvre son corps voûté, elle tend vers vous sa main frêle et squelettique:`,
 
   //choices
   {
@@ -117,7 +117,13 @@ export const intro_2_1_next = new event(
     choice1: {
       text: "Vous prenez la fiole de vie et quitter la demeure",
       direction: "intro_3_1",
-      stuff: "fiole de vie"
+      stuff: {
+        name: "fiole de vie",
+        description: "Une petite fiole en verre contenant un liquide rougeâtre.",
+        categoryObject: "objets",
+        categoryEffect: "pv",
+        effect: +1,
+      }
     },
     choice2: {
       text: "Vous préférez mépriser les paroles de la vieille femme et refuser son offre.",

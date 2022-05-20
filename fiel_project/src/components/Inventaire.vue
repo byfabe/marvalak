@@ -4,7 +4,7 @@
     <div class="inventory">
       <h2>Feuille du personnage</h2>
       <div class="name">
-        <span>{{ getCharacter.name }} {{ getCharacter.title}}</span>
+        <span>{{ getCharacter.name }} {{ getCharacter.title }}</span>
         <ul>
           <li>
             <i class="fa-solid fa-shield-heart"></i> Point de vie:
@@ -66,7 +66,15 @@
       </div>
       <div class="stuff">
         <h3><i class="fa-solid fa-chess"></i> Objets</h3>
-        <span v-for="item in getInventory.objets" :key="item">{{ item }}</span>
+        <span
+          v-for="(item, index) in getInventory.objets"
+          :key="item"
+          @click="useObject(item, index)"
+        >
+          <Popper :content="item.description" hover="true" placement="top">
+            {{ item.name }}
+          </Popper></span
+        >
       </div>
       <div class="stuff">
         <h3><i class="ri-key-2-fill"></i> Clef</h3>
@@ -88,10 +96,16 @@
 
 <script>
 import { mapGetters } from "vuex";
+import Popper from "vue3-popper";
 export default {
+  components: {
+    Popper,
+  },
+
   data() {
     return {};
   },
+
   methods: {
     //Switch l'affichage de l'inventaire
     hiddenSwitch() {
@@ -100,14 +114,25 @@ export default {
       inventory.classList.toggle("hidden");
       backpack.classList.toggle("hidden");
     },
-    //Fondu du texte pendant les transitions
+
+    //Fondu du texte pendant les transitions de l'inventaire
     fadeText() {
       let inventory = document.querySelector(".inventory");
       let backpack = document.querySelector(".inventory-backpack");
       inventory.classList.add("anim");
       backpack.classList.add("anim");
     },
+
+    //Utilisation d'un objet
+    //Supprime l'objet selectionné en fonction de son index
+    useObject(key, index) {
+      let inventory = this.$store.state.inventory;
+      inventory[key.categoryEffect] =
+        inventory[key.categoryEffect] + key.effect;
+      inventory[key.categoryObject].splice(index, 1);
+    },
   },
+
   computed: {
     ...mapGetters(["getInventory", "getCharacter"]),
   },
@@ -145,7 +170,7 @@ export default {
     left: 40%;
     & img {
       width: 70px;
-      cursor: pointer;
+      //cursor: pointer;
     }
   }
   & .inventory {
@@ -218,6 +243,18 @@ export default {
         display: inline-block;
         //font-weight: bold;
         margin-right: 15px;
+        //cursor: pointer;
+        font-family: antiqua;
+        font-size: 19px;
+      }
+      :deep(.popper) {
+        width: 50%;
+        padding: 10px;
+        background: #cbb592;
+        border: 1px solid rgba(0, 0, 0, 0.733);
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: bold;
       }
     }
   }

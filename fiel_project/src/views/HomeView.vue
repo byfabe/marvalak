@@ -11,12 +11,14 @@
           v-if="this.event.fight != true"
           src="../assets/images/storyEvent2.png"
           alt=""
+          draggable="false"
         />
         <img
           class="sword animImage"
           v-if="this.event.fight === true"
           src="../assets/images/fightEvent.png"
           alt=""
+          draggable="false"
         />
       </div>
 
@@ -287,7 +289,7 @@ export default {
       padding: 0 4%;
     }
     & .choice {
-      cursor: pointer;
+      cursor: url("../assets/images/use.cur"), auto;
       margin-top: 2%;
       font-weight: bold;
       line-height: 25px;
@@ -295,7 +297,7 @@ export default {
     & .fight {
       & .roll-dice-text {
         margin: 5% 0;
-        cursor: pointer;
+        //cursor: pointer;
         font-weight: bold;
       }
       & .result-fight {
