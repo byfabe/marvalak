@@ -58,11 +58,25 @@
       <h2>Sac à dos</h2>
       <div class="stuff">
         <h3><i class="ri-sword-fill"></i> Armes</h3>
-        <span v-for="item in getInventory.armes" :key="item">{{ item }}</span>
+        <span
+          v-for="(item, index) in getInventory.armes"
+          :key="item"
+          @click="useObject(item, index)"
+          ><Popper :content="item.description" hover="true" placement="top">{{
+            item.name
+          }}</Popper></span
+        >
       </div>
       <div class="stuff">
         <h3><i class="fa-solid fa-shield"></i> Armures</h3>
-        <span v-for="item in getInventory.armures" :key="item">{{ item }}</span>
+        <span
+          v-for="(item, index) in getInventory.armures"
+          :key="item"
+          @click="useObject(item, index)"
+          ><Popper :content="item.description" hover="true" placement="top">{{
+            item.name
+          }}</Popper></span
+        >
       </div>
       <div class="stuff">
         <h3><i class="fa-solid fa-chess"></i> Objets</h3>
@@ -78,7 +92,14 @@
       </div>
       <div class="stuff">
         <h3><i class="ri-key-2-fill"></i> Clef</h3>
-        <span v-for="item in getInventory.clef" :key="item">{{ item }}</span>
+        <span
+          v-for="(item, index) in getInventory.clef"
+          :key="item"
+          @click="useObject(item, index)"
+          ><Popper :content="item.description" hover="true" placement="top">{{
+            item.name
+          }}</Popper></span
+        >
       </div>
       <div class="arrow">
         <img

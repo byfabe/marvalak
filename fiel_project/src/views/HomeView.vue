@@ -167,6 +167,7 @@ export default {
         }
       }
     },
+    
     //Importe le nouvel objet dans "this.event" selon la valeur de la clé "direction"
     direction(item) {
       console.log(this.event);

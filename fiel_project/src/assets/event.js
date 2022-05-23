@@ -5,6 +5,7 @@
 
 //event retroactif, stocker event dans perso
 //composant pour chaque cartes, on est sur Vue !
+import * as stuff from "@/assets/stuff.js";
 
 class event {
   constructor(text, choices) {
@@ -117,13 +118,7 @@ export const intro_2_1_next = new event(
     choice1: {
       text: "Vous prenez la fiole de vie et quitter la demeure",
       direction: "intro_3_1",
-      stuff: {
-        name: "fiole de vie",
-        description: "Une petite fiole en verre contenant un liquide rougeâtre.",
-        categoryObject: "objets",
-        categoryEffect: "pv",
-        effect: +1,
-      }
+      stuff: stuff.fioleDeVie
     },
     choice2: {
       text: "Vous préférez mépriser les paroles de la vieille femme et refuser son offre.",

@@ -1,3 +1,5 @@
+import * as stuff from "@/assets/stuff.js";
+
 export const bestiary_0_0 = {
   audio: "heavyDoorOpen.mp3",
   text: "Une créature aux dents longues s'avance vers vous, le combat commence. ",

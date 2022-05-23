@@ -24,7 +24,7 @@ export default createStore({
   },
   mutations: {
     ADD_OBJECTS(state, data) {
-      state.inventory.objets.push(data);
+      state.inventory[data.categoryObject].push(data);
     },
     ADD_PV(state, data) {
       state.inventory.pv = data
