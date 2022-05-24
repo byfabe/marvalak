@@ -167,10 +167,9 @@ export default {
         }
       }
     },
-    
+
     //Importe le nouvel objet dans "this.event" selon la valeur de la clé "direction"
     direction(item) {
-      console.log(this.event);
       if (item.direction.includes("intro")) {
         this.event = event[item.direction];
       }
@@ -180,8 +179,17 @@ export default {
       }
 
       //Ajoute le stuff dans inventory.objets si item.stuff existe
-      if (item.stuff) {
+      if (
+        (item.stuff && item.stuff.categoryObject === "objets") ||
+        (item.stuff && item.stuff.categoryObject === "clef")
+      ) {
         this.$store.commit("ADD_OBJECTS", item.stuff);
+      } else if (
+        (item.stuff && item.stuff.categoryObject === "armes") ||
+        (item.stuff && item.stuff.categoryObject === "armures")
+      ) {
+        this.$store.commit("ADD_EQUIPMENT", item.stuff);
+        this.getInventory[item.stuff.categoryEffect] += item.stuff.effect;
       }
 
       //Lecture de l'audio de l'event si mute === "false"

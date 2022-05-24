@@ -26,8 +26,11 @@ export default createStore({
     ADD_OBJECTS(state, data) {
       state.inventory[data.categoryObject].push(data);
     },
+    ADD_EQUIPMENT(state, data) {
+      state.inventory[data.categoryObject].push(data);
+    },
     ADD_PV(state, data) {
-      state.inventory.pv = data
+      state.inventory.pv = data;
     },
   },
   actions: {},
