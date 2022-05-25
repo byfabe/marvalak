@@ -1,10 +1,11 @@
 class stuff {
-  constructor(name, description, categoryObject, categoryEffect, effect) {
+  constructor(name, description, categoryObject, categoryEffect, effect, color) {
     this.name = name;
     this.description = description;
     this.categoryObject = categoryObject;
     this.categoryEffect = categoryEffect;
     this.effect = effect;
+    this.color = color;
   }
 }
 
@@ -26,5 +27,7 @@ export const fioleDeVie = new stuff(
   //categoryEffect
   "pv",
   //effect
-  +1
+  +1,
+  //color
+  "rgb(46, 4, 24);"
 );

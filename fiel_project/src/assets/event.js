@@ -6,6 +6,7 @@
 //event retroactif, stocker event dans perso
 //composant pour chaque cartes, on est sur Vue !
 import * as stuff from "@/assets/stuff.js";
+import Popper from "vue3-popper";
 
 class event {
   constructor(text, choices) {
@@ -86,12 +87,12 @@ export const intro_2_0 = new event(
   //choices
   {
     choice1: {
-      text: "Vous repoussez sa main et faites un pas en arrière",
+      text: `Vous repoussez sa main et faites un pas en arrière`,
       direction: "intro_2_1",
     },
     choice2: {
       text: "Vous laissez la vieille femme vous agripper le poignet.",
-      direction: "",
+      direction: "intro_2_2",
     },
   }
 );
@@ -116,9 +117,9 @@ export const intro_2_1_next = new event(
   //choices
   {
     choice1: {
-      text: "Vous prenez la fiole de vie et quitter la demeure",
+      text: `Vous prenez la <span data-text="${stuff.fioleDeVie.description}" class="tooltip">${stuff.fioleDeVie.name}</span> et vous quittez la demeure`,
       direction: "intro_3_1",
-      stuff: stuff.fioleDeVie
+      stuff: stuff.fioleDeVie,
     },
     choice2: {
       text: "Vous préférez mépriser les paroles de la vieille femme et refuser son offre.",
@@ -126,6 +127,36 @@ export const intro_2_1_next = new event(
     },
   }
 );
+
+export const intro_2_2 = new event(
+  //Story
+  "La vieille femme vous saisit le poignet, sa peau est froide comme les neiges des montagnes du nord, vous sentez ses paroles s'immiscer dans votre esprit, les mots sont d’une langue non commune mais vous en comprenez le sens : “Je me nomme Achilda Mortepeau la nécromancienne, l’une des cinq soeurs de la création, nous sommes ici dans ma demeure, une petite bicoque située dans la forêt d’Espérance.",
+
+  //choices
+  {
+    choice1: {
+      text: "Continuer",
+      direction: "intro_2_2_next",
+    },
+  }
+)
+
+export const intro_2_2_next = new event (
+  "Je ressens des interrogations en vous, mais je ne peux vous en dire plus, cela serait dangereux. Un mal profond s’est logé en chacun de nous. Partez vers le nord, après cinq jours de marche vous trouverez le château de Marvalak, allez y trouver des réponses. Notre temps à tous est compté. Prenez cette concoction, elle vous sera utile durant votre périple.",
+
+  //choices
+  {
+    choice1: {
+      text: `Vous prenez la <span data-text="${stuff.fioleDeVie.description}" class="tooltip anim" style="color: ${stuff.fioleDeVie.color}">${stuff.fioleDeVie.name}</span> et vous quittez la demeure`,
+      direction: "intro_3_1",
+      stuff: stuff.fioleDeVie,
+    },
+    choice2: {
+      text: "vous préférez ne pas prendre la concoction et vous quittez les lieux.",
+      direction: "intro_3_1",
+    },
+  }
+)
 
 export const intro_3_1 = new event(
   //Story
@@ -141,5 +172,5 @@ export const intro_3_1 = new event(
       text: "",
       direction: "",
     },
-  },
+  }
 );

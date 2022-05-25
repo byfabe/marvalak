@@ -2,7 +2,8 @@
   <div class="container-inventory">
     <!-- CHARACTER SHEET -->
     <div class="inventory">
-      <h2>Feuille du personnage</h2>
+      <!-- <h2>Feuille du personnage</h2> -->
+      <img src="../assets/images/banniere.png" alt="">
       <div class="name">
         <span>{{ getCharacter.name }} {{ getCharacter.title }}</span>
         <div class="pv-coin">
@@ -44,7 +45,7 @@
 
       <div class="arrow">
         <img
-          src="../assets/images/arrow.png"
+          src="../assets/images/arrow5.png"
           alt=""
           @click="
             hiddenSwitch();
@@ -105,7 +106,7 @@
       </div>
       <div class="arrow">
         <img
-          src="../assets/images/arrow.png"
+          src="../assets/images/arrow5.png"
           alt=""
           @click="
             hiddenSwitch();
@@ -192,15 +193,10 @@ export default {
   & span {
     font-size: clamp(5px, 2.5vw, 22px);
   }
-  .arrow {
-    position: absolute;
-    bottom: 7%;
-    left: 40%;
-    & img {
-      width: 70px;
-      cursor: url("../assets/images/use.cur"), auto;
-    }
-  }
+& img {
+          width: 100%;
+        }
+  //INVENTORY\\
   & .inventory {
     width: 85%;
     height: 75%;
@@ -210,11 +206,11 @@ export default {
     }
     & .name {
       display: block;
-      margin: 8% 0;
+      margin: 5% 0;
       text-align: center;
       & .pv-coin {
         display: flex;
-        margin: 8% 0;
+        margin: 8% 0 0 1%;
         & div {
           display: flex;
           flex-direction: column;
@@ -238,19 +234,19 @@ export default {
           font-size: clamp(5px, 2.5vw, 22px);
         }
         & .line {
-          width: 100%;
-          height: 35px;
-          background: url("../assets/images/line.png");
+          width: 80%;
+          height: 54px;
+          background: url("../assets/images/line10.png");
           background-size: 100%;
           background-repeat: no-repeat;
-          opacity: 0.9;
+          opacity: 0.8;
         }
       }
       & .carateristique-wrapper {
         display: flex;
         flex-wrap: wrap;
         width: 80%;
-        margin: 10% 0;
+        margin: 2% 0;
         & div {
           display: flex;
           flex-direction: column;
@@ -262,6 +258,8 @@ export default {
       }
     }
   }
+
+  //BACK-PACK\\
   & .inventory-backpack {
     width: 85%;
     height: 75%;
@@ -305,6 +303,17 @@ export default {
     }
   }
 }
+
+.arrow {
+  position: absolute;
+  bottom: 7%;
+  left: 40%;
+  & img {
+    width: 70px;
+    cursor: url("../assets/images/use.cur"), auto;
+  }
+}
+
 .hidden {
   display: none;
 }

@@ -32,13 +32,12 @@
         <!-- LES CHOIX -->
         <ol>
           <li
+            v-html="item.text"
             class="choice"
             v-for="item in event.choices"
             :key="item"
             @click="direction(item), fadeText()"
-          >
-            {{ item.text }}
-          </li>
+          ></li>
         </ol>
 
         <!-- AFFICHE LE COMBAT DEBUT-->
@@ -103,6 +102,7 @@
 </template>
 
 <script>
+import Popper from "vue3-popper";
 import { mapGetters } from "vuex";
 import Inventaire from "@/components/Inventaire.vue";
 import Dice from "@/components/Dice.vue";
@@ -115,11 +115,12 @@ export default {
   components: {
     Inventaire,
     Dice,
+    Popper,
   },
   data() {
     return {
       //current event
-      event: event.intro_0_0,
+      event: event.intro_2_2_next,
 
       //Inventory
 
@@ -243,20 +244,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.castle {
-  position: absolute;
-  z-index: 100;
-  width: 20%;
-  right: 8%;
-  bottom: 10%;
-}
-#dice-box {
-  position: fixed;
-  pointer-events: none;
-  z-index: 100;
-  width: 100%;
-  height: 100%;
-}
 .home {
   display: flex;
   justify-content: center;
@@ -327,7 +314,7 @@ export default {
     }
   }
 }
-.anim {
+:deep(.anim) {
   animation: fade 0.9s ease-in-out;
 }
 .animImage {
@@ -347,6 +334,52 @@ export default {
   }
   100% {
     opacity: 1;
+  }
+}
+.castle {
+  position: absolute;
+  z-index: 100;
+  width: 20%;
+  right: 8%;
+  bottom: 10%;
+}
+#dice-box {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+}
+//Tooltip sur les mots mis en évidence
+:deep(.tooltip) {
+  position: relative;
+  cursor: url("../assets/images/use.cur"), auto;
+  &:before {
+    content: attr(data-text);
+    position: absolute;
+
+    /* vertically center */
+    top: -100%;
+    transform: translateY(-100%);
+
+    /* move to right */
+    left: 0;
+
+    /* basic styles */
+    width: 12vw;
+    padding: 10px;
+    background: #cbb592;
+    border: 2px solid rgba(0, 0, 0, 0.733);
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.795);
+    font-family: antiqua;
+
+    display: none;
+  }
+  &:hover:before {
+    display: block;
   }
 }
 </style>
