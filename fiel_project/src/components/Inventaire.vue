@@ -3,7 +3,7 @@
     <!-- CHARACTER SHEET -->
     <div class="inventory">
       <!-- <h2>Feuille du personnage</h2> -->
-      <img src="../assets/images/banniere.png" alt="">
+      <img class="banner" src="../assets/images/banniere.png" alt="" />
       <div class="name">
         <span>{{ getCharacter.name }} {{ getCharacter.title }}</span>
         <div class="pv-coin">
@@ -33,8 +33,8 @@
             <span>{{ getInventory.dexterity }}</span>
           </div>
           <div>
-            <i class="fa-solid fa-hat-wizard"></i> Concentration
-            <span>{{ getInventory.concentration }}</span>
+            <i class="fa-solid fa-hat-wizard"></i> Perception
+            <span>{{ getInventory.perception }}</span>
           </div>
           <div>
             <i class="fa-solid fa-book-journal-whills"></i> Érudition
@@ -193,9 +193,6 @@ export default {
   & span {
     font-size: clamp(5px, 2.5vw, 22px);
   }
-& img {
-          width: 100%;
-        }
   //INVENTORY\\
   & .inventory {
     width: 85%;
@@ -203,6 +200,9 @@ export default {
     & h2 {
       font-size: clamp(5px, 2.8vw, 26px);
       text-align: center;
+    }
+    & .banner {
+      width: 100%;
     }
     & .name {
       display: block;
@@ -216,7 +216,7 @@ export default {
           flex-direction: column;
           align-items: center;
           flex-grow: 1;
-          font-size: clamp(5px, 1.1vw, 20px);
+          font-size: clamp(5px, 1vw, 20px);
         }
       }
     }
@@ -253,7 +253,7 @@ export default {
           align-items: center;
           flex-basis: 50%;
           margin-bottom: 10%;
-          font-size: clamp(5px, 1.1vw, 20px);
+          font-size: clamp(5px, 1vw, 20px);
         }
       }
     }
@@ -291,7 +291,7 @@ export default {
           margin-bottom: 2%;
         }
         :deep(.popper) {
-          width: 50%;
+          max-width: 50%;
           padding: 10px;
           background: #cbb592;
           border: 1px solid rgba(0, 0, 0, 0.733);

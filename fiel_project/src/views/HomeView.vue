@@ -25,12 +25,14 @@
       <!-- TOUTE LA ZONE TEXTE DEBUT -->
       <div class="text">
         <!-- HISTOIRE // TEXTE D'AMBIANCE -->
-        <p class="story" v-if="this.fightTrigger === false">
-          {{ event.text }}
-        </p>
+        <p
+          class="story"
+          v-html="this.event.text"
+          v-if="this.fightTrigger === false"
+        ></p>
 
         <!-- LES CHOIX -->
-        <ol>
+        <ol v-if="event.test != true">
           <li
             v-html="item.text"
             class="choice"
@@ -40,12 +42,22 @@
           ></li>
         </ol>
 
+        <!-- CHOIX AVEC TEST -->
+        <ol v-if="event.test === true">
+          <li
+            v-html="item.text"
+            class="choice"
+            v-for="item in event.choices"
+            :key="item"
+            @click="diceRollTest()"
+          ></li>
+        </ol>
+
         <!-- AFFICHE LE COMBAT DEBUT-->
         <div class="fight" v-if="this.event.fight === true">
           <p class="fight-name" v-if="this.fightTrigger === false">
             {{ event.name }}
-            <i class="fa-solid fa-khanda"></i>
-            <i :class="event.strengthDice"></i>
+            <i class="fa-solid fa-khanda"></i>{{ event.strength }}
           </p>
           <p class="fight-strength"></p>
 
@@ -61,16 +73,20 @@
           <!-- RESULTAT DU COMBAT -->
           <div class="result-fight" v-if="this.fightTrigger === true">
             <div class="score-result">
-              <span>Vous</span>
               <div class="icon-result">
-                <i class="fa-solid fa-khanda"></i>{{ youResult }}
+                <span>Vous:</span>
+                <i class="fa-solid fa-khanda"></i>{{ getInventory.force }} +
+                <i class="fa-solid fa-dice-d6"></i>{{ valueRoll }}
               </div>
+              <p>{{ youResult }}</p>
             </div>
             <div class="score-result">
-              <span>{{ event.name }}</span>
               <div class="icon-result">
-                <i class="fa-solid fa-khanda"></i>{{ event.strength }}
+                <span>{{ event.name }}:</span>
+                <i class="fa-solid fa-khanda"></i>{{ event.strength }} +
+                <i class="fa-solid fa-dice-d6"></i>{{ valueRollEnnemy }}
               </div>
+              <p>{{ ennemyResult }}</p>
             </div>
 
             <!-- CHOIX DE LA VICTOIRE -->
@@ -108,6 +124,7 @@ import Inventaire from "@/components/Inventaire.vue";
 import Dice from "@/components/Dice.vue";
 import * as event from "@/assets/event.js";
 import * as bestiary from "@/assets/bestiary.js";
+import * as test from "@/assets/test.js";
 import DiceBox from "@3d-dice/dice-box";
 
 export default {
@@ -120,23 +137,59 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_2_2_next,
+      event: event.intro_2_0,
 
       //Inventory
 
       //Fight
       fightTrigger: false,
       valueRoll: undefined,
+      valueRollEnnemy: undefined,
       youResult: undefined,
+      ennemyResult: undefined,
       win: false,
       lose: false,
+
+      //test
+      valueRollTest: undefined,
+      youResultTest: undefined,
 
       //Audio
       mute: false,
     };
   },
   methods: {
-    //Lance le dés, si "valueRoll" n'a pas de valeur, lance fight()
+    //Roll ennemy
+    diceRollEnnemy() {
+      //Nouvelle instance
+      const diceBox = new DiceBox("#dice-box", {
+        assetPath: "/assets/dice-box/",
+        scale: "4",
+        theme: "galvanized",
+      });
+      diceBox.init().then(() => {
+        diceBox.roll("1d6").then((results) => {
+          //Récupère la valeur du dés, lance le résultat du combat après le lancé du dés
+          this.valueRollEnnemy = results[0].value;
+          this.fight();
+          this.fightTrigger = true;
+          this.fadeText();
+        });
+      });
+      //Efface le dés après 5s
+      setTimeout(() => {
+        let canvas = document.querySelector("canvas");
+        canvas.remove();
+      }, 5000);
+
+      //Lecture de l'audio
+      if (this.mute === false) {
+        let audio = new Audio(require("@/assets/sounds/dice.mp3"));
+        audio.play();
+      }
+    },
+
+    //Lance le dés si "valueRoll" n'a pas de valeur
     diceRoll() {
       if (!document.querySelector("canvas")) {
         //Nouvelle instance
@@ -149,9 +202,7 @@ export default {
             //Récupère la valeur du dés, lance le résultat du combat après le lancé du dés
             if (this.valueRoll === undefined) {
               this.valueRoll = results[0].value;
-              this.fight();
-              this.fightTrigger = true;
-              this.fadeText();
+              this.diceRollEnnemy();
             }
           });
         });
@@ -177,21 +228,13 @@ export default {
       //Si l'event est un combat
       else if (item.direction.includes("bestiary")) {
         this.event = bestiary[item.direction];
+
+        //Si l'event est un test
+      } else if (item.direction.includes("test")) {
+        this.event = test[item.direction];
       }
 
-      //Ajoute le stuff dans inventory.objets si item.stuff existe
-      if (
-        (item.stuff && item.stuff.categoryObject === "objets") ||
-        (item.stuff && item.stuff.categoryObject === "clef")
-      ) {
-        this.$store.commit("ADD_OBJECTS", item.stuff);
-      } else if (
-        (item.stuff && item.stuff.categoryObject === "armes") ||
-        (item.stuff && item.stuff.categoryObject === "armures")
-      ) {
-        this.$store.commit("ADD_EQUIPMENT", item.stuff);
-        this.getInventory[item.stuff.categoryEffect] += item.stuff.effect;
-      }
+      this.addObject(item);
 
       //Lecture de l'audio de l'event si mute === "false"
       if (this.mute === false && this.event.audio) {
@@ -206,25 +249,77 @@ export default {
       this.lose = false;
     },
 
+    //Ajoute le stuff dans inventory.objets si item.stuff existe
+    addObject(item) {
+      if (
+        (item.stuff && item.stuff.categoryObject === "objets") ||
+        (item.stuff && item.stuff.categoryObject === "clef")
+      ) {
+        this.$store.commit("ADD_OBJECTS", item.stuff);
+      } else if (
+        (item.stuff && item.stuff.categoryObject === "armes") ||
+        (item.stuff && item.stuff.categoryObject === "armures")
+      ) {
+        this.$store.commit("ADD_EQUIPMENT", item.stuff);
+        this.getInventory[item.stuff.categoryEffect] += item.stuff.effect;
+      }
+    },
+
     //Après le lancé de dés calcul le résultat du dés et des caractéristiques du personnage
     //et compare le résultat avec celui de la créature et renvoi true selon la victoire ou la défaite
     fight() {
       this.youResult = this.getInventory.force + this.valueRoll;
-      if (this.youResult >= this.event.strength) {
+      this.ennemyResult = this.event.strength + this.valueRollEnnemy;
+      if (this.youResult >= this.ennemyResult) {
         this.win = true;
       } else {
         this.lose = true;
       }
     },
 
-    //EXEMPLE PARENT/ENFANT
-    // diceValueRoll(value) {
-    //   if (this.valueRoll === undefined) {
-    //     this.valueRoll = value;
-    //     this.fight();
-    //     this.fightTrigger = true;
-    //   }
-    // },
+    diceRollTest() {
+      if (!document.querySelector("canvas")) {
+        //Nouvelle instance
+        const diceBox = new DiceBox("#dice-box", {
+          assetPath: "/assets/dice-box/",
+          scale: "4",
+        });
+        diceBox.init().then(() => {
+          diceBox.roll("1d20").then((results) => {
+            if (this.valueRollTest === undefined) {
+              this.valueRollTest = results[0].value;
+              this.test();
+              this.fadeText();
+            }
+          });
+        });
+        //Efface le dés après 5s
+        setTimeout(() => {
+          let canvas = document.querySelector("canvas");
+          canvas.remove();
+        }, 5000);
+
+        //Lecture de l'audio
+        if (this.mute === false) {
+          let audio = new Audio(require("@/assets/sounds/dice.mp3"));
+          audio.play();
+        }
+      }
+    },
+
+    test() {
+      this.youResultTest =
+        this.getInventory[this.event.hability] + this.valueRollTest;
+
+      //Success
+      if (this.youResultTest >= this.event.valueTest) {
+        this.event = test[this.event.result.win.direction];
+
+        //Missed
+      } else {
+        this.event = test[this.event.result.lose.direction];
+      }
+    },
 
     //Fondu du texte pendant les transitions
     fadeText() {
@@ -235,6 +330,15 @@ export default {
         p.classList.remove("anim");
       }, 900);
     },
+
+    //EXEMPLE PARENT/ENFANT
+    // diceValueRoll(value) {
+    //   if (this.valueRoll === undefined) {
+    //     this.valueRoll = value;
+    //     this.fight();
+    //     this.fightTrigger = true;
+    //   }
+    // },
   },
   computed: {
     ...mapGetters(["getInventory", "getCharacter"]),
@@ -302,12 +406,19 @@ export default {
         align-items: center;
         margin: 5% 0;
         & .score-result {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+          text-align: center;
           margin-bottom: 7%;
-          & span {
-            font-size: 22px;
+          & .icon-result {
+            width: 100vw;
+            margin: 20px 0;
+            & span {
+              font-size: 22px;
+              margin-right: 5px;
+            }
+          }
+          & p {
+            font-size: 30px;
+            font-weight: bold;
           }
         }
       }
@@ -337,7 +448,7 @@ export default {
   }
 }
 .castle {
-  position: absolute;
+  position: fixed;
   z-index: 100;
   width: 20%;
   right: 8%;
@@ -346,13 +457,14 @@ export default {
 #dice-box {
   position: fixed;
   pointer-events: none;
-  z-index: 100;
+  z-index: 101;
   width: 100%;
   height: 100%;
 }
 //Tooltip sur les mots mis en évidence
 :deep(.tooltip) {
   position: relative;
+  display: inline;
   cursor: url("../assets/images/use.cur"), auto;
   &:before {
     content: attr(data-text);
@@ -366,7 +478,7 @@ export default {
     left: 0;
 
     /* basic styles */
-    width: 12vw;
+    white-space: pre;
     padding: 10px;
     background: #cbb592;
     border: 2px solid rgba(0, 0, 0, 0.733);

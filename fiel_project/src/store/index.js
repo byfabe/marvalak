@@ -5,11 +5,11 @@ export default createStore({
     character: { name: "Gurthang", title: "~ le fer de la mort" },
 
     inventory: {
-      pv: 20,
+      pv: 10,
       gold: 0,
       force: 1,
       dexterity: 1,
-      concentration: 1,
+      perception: 20,
       erudition: 1,
       humeur: "calme",
       armes: [],

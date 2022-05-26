@@ -34,9 +34,7 @@ export const bestiary_0_1 = {
 export const bestiary_0_2 = {
   text: "Vous vous préparez au combat.",
   name: "Chimère aux dents longues",
-  strength: 4,
-  strengthDice: "fa-solid fa-dice-four",
-  hability: "force",
+  strength: 1,
   fight: true,
   result: {
     win: {
