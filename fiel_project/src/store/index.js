@@ -9,7 +9,7 @@ export default createStore({
       gold: 0,
       force: 1,
       dexterity: 1,
-      perception: 20,
+      perception: 1,
       erudition: 1,
       humeur: "calme",
       armes: [],

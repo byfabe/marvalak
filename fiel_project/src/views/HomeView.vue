@@ -31,7 +31,7 @@
           v-if="this.fightTrigger === false"
         ></p>
 
-        <!-- LES CHOIX -->
+        <!-- CHOIX CLASSIQUE-->
         <ol v-if="event.test != true">
           <li
             v-html="item.text"
@@ -40,16 +40,24 @@
             :key="item"
             @click="direction(item), fadeText()"
           ></li>
-        </ol>
 
-        <!-- CHOIX AVEC TEST -->
-        <ol v-if="event.test === true">
+          <!-- CHOIX VEROUILLE -->
           <li
             v-html="item.text"
             class="choice"
-            v-for="item in event.choices"
+            :class="item.lock"
+            v-for="item in event.lock"
             :key="item"
-            @click="diceRollTest()"
+            @click="lock(item, $event)"
+          ></li>
+
+          <!-- CHOIX TEST // MULTITEST-->
+          <li
+            v-html="item.text"
+            class="choice"
+            v-for="item in event.test"
+            :key="item"
+            @click="diceRollTest(item)"
           ></li>
         </ol>
 
@@ -137,7 +145,7 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_2_0,
+      event: event.intro_0_0,
 
       //Inventory
 
@@ -159,6 +167,36 @@ export default {
     };
   },
   methods: {
+    //Importe le nouvel objet dans "this.event" selon la valeur de la clé "direction"
+    direction(item) {
+      if (item.direction.includes("intro")) {
+        this.event = event[item.direction];
+      }
+      //Si l'event est un combat
+      else if (item.direction.includes("bestiary")) {
+        this.event = bestiary[item.direction];
+
+        //Si l'event est un test
+      } else if (item.direction.includes("test")) {
+        this.event = test[item.direction];
+      }
+
+      //ajoute un objet à l'inventaire si stuff existe
+      this.addObject(item);
+
+      //Lecture de l'audio de l'event si mute === "false"
+      if (this.mute === false && this.event.audio) {
+        let audio = new Audio(require("@/assets/sounds/" + this.event.audio));
+        audio.play();
+      }
+
+      //Reset la value des fight
+      this.fightTrigger = false;
+      this.valueRoll = undefined;
+      this.win = false;
+      this.lose = false;
+    },
+
     //Roll ennemy
     diceRollEnnemy() {
       //Nouvelle instance
@@ -220,35 +258,6 @@ export default {
       }
     },
 
-    //Importe le nouvel objet dans "this.event" selon la valeur de la clé "direction"
-    direction(item) {
-      if (item.direction.includes("intro")) {
-        this.event = event[item.direction];
-      }
-      //Si l'event est un combat
-      else if (item.direction.includes("bestiary")) {
-        this.event = bestiary[item.direction];
-
-        //Si l'event est un test
-      } else if (item.direction.includes("test")) {
-        this.event = test[item.direction];
-      }
-
-      this.addObject(item);
-
-      //Lecture de l'audio de l'event si mute === "false"
-      if (this.mute === false && this.event.audio) {
-        let audio = new Audio(require("@/assets/sounds/" + this.event.audio));
-        audio.play();
-      }
-
-      //Reset la value des fight
-      this.fightTrigger = false;
-      this.valueRoll = undefined;
-      this.win = false;
-      this.lose = false;
-    },
-
     //Ajoute le stuff dans inventory.objets si item.stuff existe
     addObject(item) {
       if (
@@ -277,7 +286,8 @@ export default {
       }
     },
 
-    diceRollTest() {
+    //lance un dés de 20
+    diceRollTest(item) {
       if (!document.querySelector("canvas")) {
         //Nouvelle instance
         const diceBox = new DiceBox("#dice-box", {
@@ -288,7 +298,7 @@ export default {
           diceBox.roll("1d20").then((results) => {
             if (this.valueRollTest === undefined) {
               this.valueRollTest = results[0].value;
-              this.test();
+              this.test(item);
               this.fadeText();
             }
           });
@@ -307,17 +317,38 @@ export default {
       }
     },
 
-    test() {
+    //Compare le dés de test et l'habilité du personnage
+    //Redirige vers direction success ou missed
+    test(item) {
       this.youResultTest =
-        this.getInventory[this.event.hability] + this.valueRollTest;
+        this.getInventory[item.hability] + this.valueRollTest;
 
       //Success
-      if (this.youResultTest >= this.event.valueTest) {
-        this.event = test[this.event.result.win.direction];
-
+      if (this.youResultTest >= item.valueTest) {
+        this.direction(item.success)
+    
         //Missed
       } else {
-        this.event = test[this.event.result.lose.direction];
+        this.direction(item.missed)
+      }
+    },
+
+    //Si le bon objet est dans l'inventaire, déverouille le choix
+    lock(item, event) {
+      let icon = document.querySelectorAll(".lock-icon");
+      if (this.getInventory.clef.includes(item.object)) {
+        event.target.classList.remove("lock");
+
+        //Change l'icone de vérrou
+        icon.forEach((i) => i.classList.toggle("hide"));
+
+        //Envoi sur le prochain event
+        setTimeout(() => {
+          this.direction(item);
+          this.fadeText();
+        }, 1100);
+      } else {
+        console.log("ko");
       }
     },
 
@@ -393,6 +424,12 @@ export default {
       margin-top: 2%;
       font-weight: bold;
       line-height: 25px;
+    }
+    & .lock {
+      color: rgba(0, 0, 0, 0.336);
+    }
+    & :deep .hide {
+      display: none;
     }
     & .fight {
       & .roll-dice-text {

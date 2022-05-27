@@ -279,6 +279,7 @@ export default {
         align-items: center;
         width: 50%;
         height: 40%;
+        overflow: auto;
         & h3 {
           margin-bottom: 8%;
           text-align: center;

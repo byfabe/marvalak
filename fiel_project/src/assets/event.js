@@ -14,6 +14,21 @@ class event {
   }
 }
 
+class eventMultiTest extends event {
+  constructor(text, choices, test) {
+    super(text, choices);
+    this.test = test;
+  }
+}
+
+class eventMultiTestLock extends event {
+  constructor(text, choices, lock, test) {
+    super(text, choices);
+    this.lock = lock;
+    this.test = test;
+  }
+}
+
 class eventAudio extends event {
   constructor(text, choices, audio) {
     super(text, choices);
@@ -165,7 +180,7 @@ export const intro_3_0 = new event(
   {
     choice1: {
       text: "Vous décidez de contempler la nature béant d’admiration",
-      direction: "test_0_0",
+      direction: "test_3_1",
     },
     choice2: {
       text: "Vous continuez votre chemin.",
@@ -175,3 +190,98 @@ export const intro_3_0 = new event(
 );
 
 
+// EXEMPLE CHOIX lOCK
+
+// export const intro_5_0 = new eventMultiTestLock(
+//   //Story
+//   "Multiple test",
+//   //choices
+//   {
+//     choice1: {
+//       text: "choix 1",
+//       direction: "intro_5_0",
+//     },
+//     choice2: {
+//       text: "choix 2",
+//       direction: "intro_0_0",
+//     },
+//   },
+//   //lock
+//   {
+//     choice3: {
+//       text: `<i class="fa-solid fa-lock lock-icon"></i> <i class="fa-solid fa-lock-open hide lock-icon"></i> Vous avez la clef sombre pour ouvrir cette porte.`,
+//       direction: "intro_0_0",
+//       lock: "lock",
+//       object: "clef sombre"
+//     },
+//   },
+//   //test
+//   {
+//     test1: {
+//       text: "test1",
+//       hability: "perception",
+//       valueTest: 10,
+//       success: {
+//         text: "test 1 success",
+//         direction: "intro_5_test_perception_success",
+//       },
+//       missed: {
+//         text: "test 1 missed",
+//         direction: "intro_5_test_perception_missed",
+//       },
+//     },
+//     test2: {
+//       text: "test2",
+//       hability: "force",
+//       valueTest: 10,
+//       success: {
+//         direction: "intro_5_test_force_success",
+//       },
+//       missed: {
+//         direction: "intro_5_test_force_missed",
+//       },
+//     },
+//   },
+//   //multiTest
+//   true,
+// );
+
+// export const intro_5_test_perception_success = new eventMultiTest(
+//   "test perception réussi",
+//   {
+//     choice1: {
+//       text: "Continuez",
+//       direction: "test_0_0",
+//     },
+//   }
+// )
+
+// export const intro_5_test_perception_missed = new eventMultiTest(
+//   "test perception échec",
+//   {
+//     choice1: {
+//       text: "Continuez",
+//       direction: "test_0_0",
+//     },
+//   }
+// )
+
+// export const intro_5_test_force_success = new eventMultiTest(
+//   "test force réussi",
+//   {
+//     choice1: {
+//       text: "Continuez",
+//       direction: "test_0_0",
+//     },
+//   }
+// )
+
+// export const intro_5_test_force_missed = new eventMultiTest(
+//   "test force échec",
+//   {
+//     choice1: {
+//       text: "Continuez",
+//       direction: "test_0_0",
+//     },
+//   }
+// )
