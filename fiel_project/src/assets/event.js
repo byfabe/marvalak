@@ -29,6 +29,14 @@ class eventMultiTestLock extends event {
   }
 }
 
+class eventTimer extends event {
+  constructor(text, choices, directionTimer, timer) {
+    super(text, choices);
+    this.directionTimer = directionTimer;
+    this.timer = timer;
+  }
+}
+
 class eventAudio extends event {
   constructor(text, choices, audio) {
     super(text, choices);
@@ -189,7 +197,6 @@ export const intro_3_0 = new event(
   }
 );
 
-
 // EXEMPLE CHOIX lOCK
 
 // export const intro_5_0 = new eventMultiTestLock(
@@ -285,3 +292,24 @@ export const intro_3_0 = new event(
 //     },
 //   }
 // )
+
+//EXEMPLE TIMER
+// export const intro_test_timer = new eventTimer(
+//   "Une enigme des plus rude, combien font un plus un ?",
+//   {
+//     choice1: {
+//       text: "Ici j'écris une vrais phrase pour voir, juste pour voir",
+//       direction: "intro_test_success",
+//     },
+//     choice2: {
+//       text: "égale 11",
+//       direction: "intro_test_missed",
+//     },
+//   },
+//   "test_missed",
+//   "timer"
+// );
+
+// export const intro_test_success = new event("Timer réussi !");
+
+// export const intro_test_missed = new event("Timer échec !");

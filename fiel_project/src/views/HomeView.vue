@@ -2,6 +2,7 @@
   <div class="home" id="home">
     <div id="dice-box"></div>
     <Inventaire />
+    <img class="map" src="../assets/images/map2.png" alt="" />
     <div class="card">
       <!-- <div class="illustration"></div> -->
       <!-- ICONES DES EVENEMENTS -->
@@ -21,7 +22,6 @@
           draggable="false"
         />
       </div>
-
       <!-- TOUTE LA ZONE TEXTE DEBUT -->
       <div class="text">
         <!-- HISTOIRE // TEXTE D'AMBIANCE -->
@@ -30,6 +30,7 @@
           v-html="this.event.text"
           v-if="this.fightTrigger === false"
         ></p>
+        <p class="timer" v-if="this.event.timer"></p>
 
         <!-- CHOIX CLASSIQUE-->
         <ol v-if="event.test != true">
@@ -181,6 +182,13 @@ export default {
         this.event = test[item.direction];
       }
 
+      //Si il y a un timer se dirige vers la direction au bout de 20s
+      if (this.event.timer) {
+        setTimeout(() => {
+          this.event = event[this.event.directionTimer];
+        }, 20000);
+      }
+
       //ajoute un objet à l'inventaire si stuff existe
       this.addObject(item);
 
@@ -325,11 +333,11 @@ export default {
 
       //Success
       if (this.youResultTest >= item.valueTest) {
-        this.direction(item.success)
-    
+        this.direction(item.success);
+
         //Missed
       } else {
-        this.direction(item.missed)
+        this.direction(item.missed);
       }
     },
 
@@ -389,6 +397,19 @@ export default {
   background-image: url("../assets/images/bg50.png");
   background-size: 100% 100vh;
   background-position: center;
+  & .map {
+    position: absolute;
+    z-index: 200;
+    top: -95%;
+    transform: rotate(10deg);
+    width: 60%;
+    transition: all 0.5s ease-in-out;
+    &:hover {
+      top: 0;
+      transform: rotate(0deg);
+      transition: all 0.4s ease-in-out;
+    }
+  }
   & .card {
     width: 24%;
     height: 65%;
@@ -468,6 +489,17 @@ export default {
 .animImage {
   animation: fadeImage 0.9s ease-in-out;
 }
+.timer {
+  height: 25px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  font-family: "Font Awesome 5 Free";
+  &::after {
+    content: "";
+    animation: countdown 20s forwards;
+  }
+}
 @keyframes fade {
   0% {
     color: transparent;
@@ -482,6 +514,41 @@ export default {
   }
   100% {
     opacity: 1;
+  }
+}
+@keyframes countdown {
+  0% {
+    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525";
+  }
+  10% {
+    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525";
+  }
+  20% {
+    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525";
+  }
+  30% {
+    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525";
+  }
+  40% {
+    content: "\f525  \f525  \f525  \f525  \f525  \f525";
+  }
+  50% {
+    content: "\f525  \f525  \f525  \f525  \f525";
+  }
+  60% {
+    content: "\f525  \f525  \f525  \f525";
+  }
+  70% {
+    content: "\f525  \f525  \f525";
+  }
+  80% {
+    content: "\f525  \f525";
+  }
+  90% {
+    content: "\f525";
+  }
+  100% {
+    content: "\f54c";
   }
 }
 .castle {
