@@ -5,12 +5,21 @@
 
 //event retroactif, stocker event dans perso
 //composant pour chaque cartes, on est sur Vue !
+
 import * as stuff from "@/assets/stuff.js";
+import * as tooltip from "@/assets/tooltip.js"
 
 class event {
   constructor(text, choices) {
     this.text = text;
     this.choices = choices;
+  }
+}
+
+class test {
+  constructor(text, test) {
+    this.text = text;
+    this.test = test;
   }
 }
 
@@ -44,6 +53,7 @@ class eventAudio extends event {
   }
 }
 
+//#region LA CHUTE 0_0 DEBUT
 export const intro_0_0 = new event(
   //Story
   `Vos yeux s’ouvrent, vous ne distinguez autour de vous que le néant, aucune pesanteur, aucun souvenir, vous ne ressentez que l'inéluctable sensation d’être aspiré vers un fond infini.`,
@@ -100,7 +110,9 @@ export const intro_1_0 = new event(
     },
   }
 );
+//#endregion LA CHUTE FIN
 
+//#region ACHILDA MORTEPEAU 2_0 DEBUT
 export const intro_2_0 = new event(
   //Story
   `“Ah, encore vous !” s’exclame une vieille femme aux yeux noirs, les marques sur son visage laissent deviner son grand âge. 
@@ -121,7 +133,7 @@ export const intro_2_0 = new event(
 
 export const intro_2_1 = new event(
   //Story
-  `"Soyez sans crainte, je suis Achilda Mortepeau, je n’ai guère d’autres intérêt que pour les potions et les incantations en tout genre, vous vous trouvez dans ma demeure, une pauvre petite bicoque clouée au fin fond de la forêt d’Espérance .” vous dit-elle d’un ton plutôt rassurant.`,
+  `"Soyez sans crainte, je suis Achilda Mortepeau, je n’ai guère d’autres intérêt que pour les potions et les incantations en tout genre, vous vous trouvez dans ma demeure, une pauvre petite bicoque clouée au fin fond de la <p data-text="${tooltip.esperance.text}" class="tooltip-xl anim" style="color: ${tooltip.esperance.color}">${tooltip.esperance.name}.</p>” vous dit-elle d’un ton plutôt rassurant.`,
   //choices
   {
     choice1: {
@@ -152,7 +164,7 @@ export const intro_2_1_next = new event(
 
 export const intro_2_2 = new event(
   //Story
-  "La vieille femme vous saisit le poignet, sa peau est froide comme les neiges des montagnes du nord, vous sentez ses paroles s'immiscer dans votre esprit, les mots sont d’une langue non commune mais vous en comprenez le sens : “Je me nomme Achilda Mortepeau la nécromancienne, l’une des cinq soeurs de la création, nous sommes ici dans ma demeure, une petite bicoque située dans la forêt d’Espérance.",
+  `La vieille femme vous saisit le poignet, sa peau est froide comme les neiges des montagnes du nord, vous sentez ses paroles s'immiscer dans votre esprit, les mots sont d’une langue non commune mais vous en comprenez le sens : “Je me nomme Achilda Mortepeau la nécromancienne, l’une des cinq soeurs de la création, nous sommes ici dans ma demeure, une petite bicoque située dans la <p data-text="${tooltip.esperance.text}" class="tooltip-xl anim" style="color: ${tooltip.esperance.color}">${tooltip.esperance.name}.</p>.`,
 
   //choices
   {
@@ -179,7 +191,9 @@ export const intro_2_2_next = new event(
     },
   }
 );
+//#endregion ACHILDA MORTEPEAU FIN
 
+//#region TEST PERCEPTION 3_0 DEBUT
 export const intro_3_0 = new event(
   //Story
   `Vous vous éloignez de la maisonnette et vous suivez un sentier en direction du nord. Autour de vous la forêt est dense, quelques rayons de soleil percent le feuillages, le sifflement des oiseaux habille généreusement l’atmosphère et l’odeur terreuse de l’humus se fait ressentir de toute part.`,
@@ -188,7 +202,7 @@ export const intro_3_0 = new event(
   {
     choice1: {
       text: "Vous décidez de contempler la nature béant d’admiration",
-      direction: "test_3_1",
+      direction: "intro_3_1",
     },
     choice2: {
       text: "Vous continuez votre chemin.",
@@ -196,6 +210,203 @@ export const intro_3_0 = new event(
     },
   }
 );
+
+export const intro_3_1 = new test(
+  //Story
+  `Vous prenez le temps d’observer les arbres et la végétation qui vous entourent.`,
+  //test
+  {
+    test1: {
+      text: "Faites un test de perception 10.",
+      hability: "perception",
+      valueTest: 10,
+      success: {
+        direction: "intro_3_1_success",
+      },
+      missed: {
+        direction: "intro_3_1_missed",
+      },
+    },
+  }
+);
+
+export const intro_3_1_success = new event(
+  //text
+  `Vous remarquez à quelques pieds de vous une souche d’arbre rongé par les termites, en son creux se cache une <p data-text="${stuff.bourse2.description}" class="tooltip anim" style="color: ${stuff.bourse2.color}">${stuff.bourse2.name}</p>`,
+  //choices
+  {
+    choice1: {
+      text: "Vous prenez la bourse.",
+      direction: "intro_4_0",
+      stuff: stuff.bourse2,
+    },
+  }
+);
+
+export const intro_3_1_missed = new event(
+  //text
+  "Cette pause vous a revigorée.",
+  //choices
+  {
+    choice1: {
+      text: "Vous continuez votre route.",
+      direction: "intro_4_0",
+    },
+  }
+);
+//#endregion TEST PERCEPTION FIN
+
+//#region RENCONTRE AVEC LE BARDE 4_0 DEBUT
+export const intro_4_0 = new event(
+  //Story
+  `<p>Vous marchez encore pendant un long moment, le soleil dans le ciel est à son point le plus haut, au loin vous reconnaissez le son d’un luth, la mélodie est accompagné d’une voix, un barde chantonne des paroles adossé sur un arbre.</p>
+  `,
+  //choices
+  {
+    choice1: {
+      text: "Continuer",
+      direction: "intro_4_0_next",
+    },
+  }
+);
+
+export const intro_4_0_next = new event(
+  //Story
+  `<p>Il vous voit avancer et continue sa ballade avec plus d’ardeur:</p>
+   <p>“Ô Bromélia, toi mon insomnie,</p>
+   <p>Ô Bromélia, toi la maîtresse de mes nuits,</p>
+   <p>Ô Bromélia, toi la lune qui me…”</p>
+  `,
+  {
+    choice1: {
+      text: "“...sourit.”",
+      direction: "intro_4_1",
+    },
+    choice2: {
+      text: "“...défit.”",
+      direction: "intro_4_2",
+    },
+    choice3: {
+      text: "“...fuit.”",
+      direction: "intro_4_3",
+    },
+  }
+);
+
+export const intro_4_1 = new event(
+  //Story
+  `“Oui, le sourire !” s’exclame le barde, “Sourire un jour, sourire toujours, sourire pour nous autres pauvres damnés, merci jeune personne de m’avoir redonné le sourire en cette belle journée, dans cette forêt si remarquable, que dis-je, si majestueuse ! Laissez moi vous conter l’histoire d’un barde dénommé Algus ~ le sempiternel conteur de fables, qui n’est d’autre que moi même, ouvrez grands vos oreilles jeune personne et délectez vous de la magnificence de mon récit !”`,
+  //choice
+  {
+    choice1: {
+      text: "Vous écoutez le barde et son histoire… assommante.",
+      direction: "intro_4_1_1",
+    },
+  }
+);
+
+export const intro_4_1_1 = new eventMultiTest(
+  //Story
+  `Algus vous accable inlassablement de ses récits, le sauvetage du chat d’un quelconque bourgmestre coincé dans un pigeonnier ou bien sa prétendue découverte d’une antre mystique peuplée de korrigan complotistes à la chevelure dorée.`,
+  //choice
+  {
+    choice1: {
+      text: "Laisser le barde s’adonner à ses histoires.",
+      direction: "intro_4_1_1_1",
+    },
+  },
+  //test
+  {
+    test1: {
+      text: "Tenter de mettre fin à la discussion avec un test d’érudition 14.",
+      hability: "erudition",
+      valueTest: 14,
+      success: {
+        direction: "intro_4_1_1_2_success",
+      },
+      missed: {
+        direction: "intro_4_1_1_2_missed",
+      },
+    },
+  }
+);
+
+export const intro_4_1_1_1 = new event(
+  //Story
+  `Et sinon jeune personne, vous ai-je parlé de la fois où j’ai bravé monts et marais pour retrouver le sceau perdu d’un seigneur dépravé ?`,
+  //choice
+  {
+    choice1: {
+      text: "Vous écoutez pendant des heures les fastidieuses aventures du barde.",
+      direction: "intro_5_0",
+    },
+  }
+);
+
+export const intro_4_1_1_2_success = new event(
+  //Story
+  `Avec une pirouette verbale des plus élégante vous arrivez à vous extirper du monologue d’Algus.`,
+  //choice
+  {
+    choice1: {
+      text: "Continuez votre route.",
+      direction: "intro_5_0",
+    },
+  }
+);
+
+export const intro_4_1_1_2_missed = new event(
+  //Story
+  `Vous tentez en vain d’interrompre Algus…`,
+  //choice
+  {
+    choice1: {
+      text: "Vous écoutez la suite de de ses récits.",
+      direction: "intro_4_1_1_1",
+    },
+  }
+);
+
+export const intro_4_2 = new event(
+  //Story
+  `“Le défi ? Alors soyez sur vos gardes jeune personne à qui les mots font défauts”`,
+  //choice
+  {
+    choice1: {
+      text: "Vous affrontez le barde dans une séance de bourres-pifs.",
+      direction: "bestiary_barde_event_4_2",
+    },
+  }
+);
+
+export const intro_4_2_lose = new event(
+  //Story
+  `Vous perdez un point de vie`,
+  //choice
+  {
+    choice1: {
+      text: "Continuer.",
+      direction: "intro_5_0",
+      categoryEffect: "pv",
+      effect: -1,
+    },
+  },
+);
+
+export const intro_4_3 = new event(
+  //Story
+  `Vous partez en courant, laissant le barde sans voix. “Couard !” crie-t-il avant de vous voir prendre le large.`,
+  //choice
+  {
+    choice1: {
+      text: "Continuez votre route.",
+      direction: "intro_5_0",
+    },
+  }
+);
+//#endregion RECONTRE AVEC LE BARDE FIN
+
+export const intro_5_0 = new event("event_5_0");
 
 // EXEMPLE CHOIX lOCK
 
@@ -229,11 +440,9 @@ export const intro_3_0 = new event(
 //       hability: "perception",
 //       valueTest: 10,
 //       success: {
-//         text: "test 1 success",
 //         direction: "intro_5_test_perception_success",
 //       },
 //       missed: {
-//         text: "test 1 missed",
 //         direction: "intro_5_test_perception_missed",
 //       },
 //     },

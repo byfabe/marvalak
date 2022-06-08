@@ -146,7 +146,7 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_0_0,
+      event: event.intro_2_0,
 
       //Inventory
 
@@ -192,6 +192,9 @@ export default {
       //ajoute un objet à l'inventaire si stuff existe
       this.addObject(item);
 
+      //Modifie les stat
+      this.effect(item);
+
       //Lecture de l'audio de l'event si mute === "false"
       if (this.mute === false && this.event.audio) {
         let audio = new Audio(require("@/assets/sounds/" + this.event.audio));
@@ -201,6 +204,7 @@ export default {
       //Reset la value des fight
       this.fightTrigger = false;
       this.valueRoll = undefined;
+      this.valueRollTest = undefined
       this.win = false;
       this.lose = false;
     },
@@ -282,6 +286,13 @@ export default {
       }
     },
 
+    //Modifie les stat du personnage si il existe un effect
+    effect(item) {
+      if (item.effect) {
+        this.getInventory[item.categoryEffect] += item.effect;
+      }
+    },
+
     //Après le lancé de dés calcul le résultat du dés et des caractéristiques du personnage
     //et compare le résultat avec celui de la créature et renvoi true selon la victoire ou la défaite
     fight() {
@@ -330,11 +341,9 @@ export default {
     test(item) {
       this.youResultTest =
         this.getInventory[item.hability] + this.valueRollTest;
-
       //Success
       if (this.youResultTest >= item.valueTest) {
         this.direction(item.success);
-
         //Missed
       } else {
         this.direction(item.missed);
@@ -417,9 +426,11 @@ export default {
     font-size: 19px;
     color: rgba(0, 0, 0, 0.795);
     & .logo {
+      display: flex;
+      justify-content: center;
       margin: 6% 0;
       & img {
-        width: 100%;
+        width: 80%;
       }
     }
     & .illustration {
@@ -565,7 +576,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-//Tooltip sur les mots mis en évidence
+//Tooltip sur les mots mis en évidence - version courte
 :deep(.tooltip) {
   position: relative;
   display: inline;
@@ -583,6 +594,40 @@ export default {
 
     /* basic styles */
     white-space: pre;
+    padding: 10px;
+    background: #cbb592;
+    border: 2px solid rgba(0, 0, 0, 0.733);
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.795);
+    font-family: antiqua;
+
+    display: none;
+  }
+  &:hover:before {
+    display: block;
+  }
+}
+//Tooltip sur les mots mis en évidence - version longue
+:deep(.tooltip-xl) {
+  position: relative;
+  display: inline;
+  cursor: url("../assets/images/use.cur"), auto;
+  &:before {
+    content: attr(data-text);
+    position: absolute;
+    z-index: 200;
+
+    /* vertically center */
+    top: -100%;
+    transform: translateY(-100%);
+
+    /* move to right */
+    left: 0;
+
+    /* basic styles */
+    width: 25vw;
     padding: 10px;
     background: #cbb592;
     border: 2px solid rgba(0, 0, 0, 0.733);

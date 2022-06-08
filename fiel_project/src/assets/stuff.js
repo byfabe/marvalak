@@ -25,6 +25,7 @@ class stuff {
 //       //color
 //   )
 
+//#region FIOLE DE VIE
 export const fioleDeVie = new stuff(
   //name
   "fiole de vie",
@@ -39,7 +40,9 @@ export const fioleDeVie = new stuff(
   //color
   "rgb(46, 4, 24);"
 );
+//#endregion
 
+//#region BOURSE2
 export const bourse2 = new stuff(
   //name
   "bourse",
@@ -54,3 +57,4 @@ export const bourse2 = new stuff(
   //color
   "rgb(46, 4, 24);"
 );
+//#endregion
