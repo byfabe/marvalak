@@ -2,7 +2,7 @@
   <div class="home" id="home">
     <div id="dice-box"></div>
     <Inventaire />
-    <img class="map" src="../assets/images/map2.png" alt="" />
+    <img class="map" src="../assets/images/map2.png" alt="" draggable="false" />
     <div class="card">
       <!-- <div class="illustration"></div> -->
       <!-- ICONES DES EVENEMENTS -->
@@ -74,7 +74,7 @@
           <p
             v-if="this.fightTrigger != true"
             @click="diceRoll"
-            class="roll-dice-text"
+            class="roll-dice-text choice"
           >
             Lancez le <i class="fa-solid fa-dice-d6"></i> !
           </p>
@@ -102,7 +102,12 @@
             <p
               class="choice"
               v-if="this.win === true"
-              @click="direction(event.result.win), fadeText()"
+              @click="
+                direction(event.result.win),
+                  fadeText(),
+                  effect(event.result.win),
+                  addObject(event.result.win)
+              "
             >
               {{ event.result.win.text }}
             </p>
@@ -110,18 +115,29 @@
             <!-- CHOIX DE LA DEFAITE -->
             <p
               class="choice"
+              v-html="event.result.lose.text"
               v-if="this.lose === true"
-              @click="direction(event.result.lose), fadeText()"
-            >
-              {{ event.result.lose.text }}
-            </p>
+              @click="
+                direction(event.result.lose),
+                  fadeText(),
+                  effect(event.result.lose),
+                  addObject(event.result.lose)
+              "
+            ></p>
           </div>
         </div>
         <!-- AFFICHE LE COMBAT FIN-->
       </div>
       <!-- TOUTE LA ZONE TEXTE FIN -->
     </div>
-    <img class="castle" src="../assets/images/castle.png" alt="" />
+
+    <!-- ILLUSTRATION BOARD -->
+    <img
+      class="castle"
+      src="../assets/images/castle.png"
+      alt=""
+      draggable="false"
+    />
     <!-- <Dice @diceValue="diceValueRoll" /> -->
   </div>
 </template>
@@ -146,7 +162,7 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_2_0,
+      event: event.intro_4_2,
 
       //Inventory
 
@@ -204,7 +220,7 @@ export default {
       //Reset la value des fight
       this.fightTrigger = false;
       this.valueRoll = undefined;
-      this.valueRollTest = undefined
+      this.valueRollTest = undefined;
       this.win = false;
       this.lose = false;
     },
@@ -220,7 +236,12 @@ export default {
       diceBox.init().then(() => {
         diceBox.roll("1d6").then((results) => {
           //Récupère la valeur du dés, lance le résultat du combat après le lancé du dés
-          this.valueRollEnnemy = results[0].value;
+          //Si plusieurs dés, la boucle for additionne tous les results.value
+          let total = 0;
+          for (const i in results) {
+            total += results[i].value;
+          }
+          this.valueRollEnnemy = total;
           this.fight();
           this.fightTrigger = true;
           this.fadeText();
@@ -250,8 +271,13 @@ export default {
         diceBox.init().then(() => {
           diceBox.roll("1d6").then((results) => {
             //Récupère la valeur du dés, lance le résultat du combat après le lancé du dés
+            //Si plusieurs dés, la boucle for additionne tous les results.value
             if (this.valueRoll === undefined) {
-              this.valueRoll = results[0].value;
+              let total = 0;
+              for (const i in results) {
+                total += results[i].value;
+              }
+              this.valueRoll = total;
               this.diceRollEnnemy();
             }
           });
@@ -391,7 +417,17 @@ export default {
   computed: {
     ...mapGetters(["getInventory", "getCharacter"]),
   },
-  mounted() {},
+  mounted() {
+    //DISABLE RIGHT CLICK
+    // window.addEventListener(
+    //   "contextmenu",
+    //   function (e) {
+    //     // do something here...
+    //     e.preventDefault();
+    //   },
+    //   false
+    // );
+  },
 };
 </script>
 

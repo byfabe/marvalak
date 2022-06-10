@@ -3,7 +3,12 @@
     <!-- CHARACTER SHEET -->
     <div class="inventory">
       <!-- <h2>Feuille du personnage</h2> -->
-      <img class="banner" src="../assets/images/banniere.png" alt="" />
+      <img
+        class="banner"
+        src="../assets/images/banniere.png"
+        alt=""
+        draggable="false"
+      />
       <div class="name">
         <span>{{ getCharacter.name }} {{ getCharacter.title }}</span>
         <div class="pv-coin">

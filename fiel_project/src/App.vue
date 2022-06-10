@@ -14,7 +14,6 @@
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
-  //list-style: none;
   cursor: url("./assets/images/standard.cur"), auto;
 }
 a {

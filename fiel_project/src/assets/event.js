@@ -379,20 +379,6 @@ export const intro_4_2 = new event(
   }
 );
 
-export const intro_4_2_lose = new event(
-  //Story
-  `Vous perdez un point de vie`,
-  //choice
-  {
-    choice1: {
-      text: "Continuer.",
-      direction: "intro_5_0",
-      categoryEffect: "pv",
-      effect: -1,
-    },
-  },
-);
-
 export const intro_4_3 = new event(
   //Story
   `Vous partez en courant, laissant le barde sans voix. “Couard !” crie-t-il avant de vous voir prendre le large.`,
