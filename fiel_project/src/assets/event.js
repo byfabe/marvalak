@@ -7,7 +7,7 @@
 //composant pour chaque cartes, on est sur Vue !
 
 import * as stuff from "@/assets/stuff.js";
-import * as tooltip from "@/assets/tooltip.js"
+import * as tooltip from "@/assets/tooltip.js";
 
 class event {
   constructor(text, choices) {
@@ -38,11 +38,14 @@ class eventMultiTestLock extends event {
   }
 }
 
-class eventTimer extends event {
-  constructor(text, choices, directionTimer, timer) {
-    super(text, choices);
+class eventTimer {
+  constructor(text, choicesImg, directionTimer, timer, images, timerTrue) {
+    this.text = text;
+    this.choicesImg = choicesImg;
     this.directionTimer = directionTimer;
     this.timer = timer;
+    this.images = images;
+    this.timerTrue = timerTrue;
   }
 }
 
@@ -392,7 +395,9 @@ export const intro_4_3 = new event(
 );
 //#endregion RECONTRE AVEC LE BARDE FIN
 
-export const intro_5_0 = new event("event_5_0", {choix1: {text: "le test", direction: "intro_test_timer"}});
+export const intro_5_0 = new event("event_5_0", {
+  choix1: { text: "le test", direction: "intro_test_timer" },
+});
 
 // EXEMPLE CHOIX lOCK
 
@@ -490,26 +495,27 @@ export const intro_5_0 = new event("event_5_0", {choix1: {text: "le test", direc
 
 //EXEMPLE TIMER
 export const intro_test_timer = new eventTimer(
-  `<img src="./assets/cards/1pique.png" alt=""><img src="@/assets/cards/2pique.png" alt=""><img src="@/assets/cards/3pique.png" alt="">`,
+  `Trouver la solution.`,
   {
     choice1: {
-      text: "Dix secondes.",
       direction: "intro_test_missed",
+      image: "5pique.png",
     },
     choice2: {
-      text: "Vingt secondes.",
       direction: "intro_test_success",
+      image: "4pique.png",
     },
     choice3: {
-      text: "Trente secondes.",
       direction: "intro_test_missed",
+      image: "8pique.png",
     },
   },
   "intro_test_missed",
-  "timer"
+  "timer",
+  ["1pique.png", "2pique.png", "3pique.png", "blank.png"],
+  true
 );
 
 export const intro_test_success = new event("Timer réussi !");
 
 export const intro_test_missed = new event("Timer échec !");
-

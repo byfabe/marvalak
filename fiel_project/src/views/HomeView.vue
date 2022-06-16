@@ -10,11 +10,12 @@
         <!-- LOGO BOOK EVENT -->
         <img
           class="book animImage"
-          v-if="this.event.fight != true"
+          v-if="this.event.fight != true && this.event.timerTrue != true"
           src="../assets/images/storyEvent2.png"
           alt=""
           draggable="false"
         />
+
         <!-- LOGO FIGHT EVENT -->
         <img
           class="sword animImage"
@@ -23,7 +24,11 @@
           alt=""
           draggable="false"
         />
+
+        <!-- AFFICHE LE TIMER SI L'EVENT CONTIENT LE MOT CLEE "TIMER" -->
+        <p class="timer" v-if="this.event.timer"></p>
       </div>
+
       <!-- TOUTE LA ZONE TEXTE DEBUT -->
       <div class="text">
         <!-- HISTOIRE // TEXTE D'AMBIANCE -->
@@ -32,10 +37,21 @@
           v-html="this.event.text"
           v-if="this.fightTrigger === false"
         ></p>
-        <p class="timer" v-if="this.event.timer"></p>
 
-        <!-- CHOIX CLASSIQUE-->
+        <!-- AFFICHE LES IMAGES SI IL Y A LA CLEE "IMAGES" DANS L'OBJET -->
+        <div class="box-img">
+          <img
+            v-for="image in this.event.images"
+            :key="image"
+            :src="require('@/assets/cards/' + image)"
+            alt=""
+          />
+        </div>
+
+        <!-- LES TYPES DE CHOIX -->
         <ol v-if="event.test != true">
+          
+          <!-- CHOIX CLASSIQUE-->
           <li
             v-html="item.text"
             class="choice"
@@ -43,6 +59,17 @@
             :key="item"
             @click="direction(item), fadeText()"
           ></li>
+
+          <!-- CHOIX IMAGES -->
+          <div class="choice-img" v-if="this.event.timerTrue === true">
+            <li
+              v-for="item in event.choicesImg"
+              :key="item"
+              @click="direction(item), fadeText()"
+            >
+              <img class="cursor-select" :src="require('@/assets/cards/' + item.image)" alt="" />
+            </li>
+          </div>
 
           <!-- CHOIX VEROUILLE -->
           <li
@@ -153,7 +180,6 @@ import * as event from "@/assets/event.js";
 import * as bestiary from "@/assets/bestiary.js";
 import * as test from "@/assets/test.js";
 import DiceBox from "@3d-dice/dice-box";
-
 export default {
   name: "HomeView",
   components: {
@@ -485,6 +511,13 @@ export default {
       line-height: 25px;
       white-space: pre-line;
     }
+    & .box-img {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10%;
+      padding: 0 4%;
+    }
     & p,
     ol {
       padding: 0 4%;
@@ -494,6 +527,13 @@ export default {
       margin-top: 2%;
       font-weight: bold;
       line-height: 25px;
+    }
+    & .choice-img {
+      display: flex;
+      justify-content: space-between;
+      & img {
+        width: 80%;
+      }
     }
     & .lock {
       color: rgba(0, 0, 0, 0.336);
@@ -540,15 +580,16 @@ export default {
 }
 .timer {
   height: 25px;
-  text-align: center;
   font-weight: bold;
   font-size: 24px;
   font-family: "Font Awesome 5 Free";
-  margin-bottom: 10%;
   &::after {
     content: "";
     animation: countdown 20s forwards;
   }
+}
+.cursor-select {
+  cursor: url("../assets/images/use.cur"), auto;
 }
 @keyframes fade {
   0% {
