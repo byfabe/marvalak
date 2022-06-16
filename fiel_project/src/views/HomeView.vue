@@ -7,6 +7,7 @@
       <!-- <div class="illustration"></div> -->
       <!-- ICONES DES EVENEMENTS -->
       <div class="logo">
+        <!-- LOGO BOOK EVENT -->
         <img
           class="book animImage"
           v-if="this.event.fight != true"
@@ -14,6 +15,7 @@
           alt=""
           draggable="false"
         />
+        <!-- LOGO FIGHT EVENT -->
         <img
           class="sword animImage"
           v-if="this.event.fight === true"
@@ -162,7 +164,7 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_4_2,
+      event: event.intro_5_0,
 
       //Inventory
 
@@ -542,6 +544,7 @@ export default {
   font-weight: bold;
   font-size: 24px;
   font-family: "Font Awesome 5 Free";
+  margin-bottom: 10%;
   &::after {
     content: "";
     animation: countdown 20s forwards;
@@ -568,31 +571,31 @@ export default {
     content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525";
   }
   10% {
-    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525";
+    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525  \f0c8";
   }
   20% {
-    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525";
+    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525  \f525  \f0c8  \f0c8";
   }
   30% {
-    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525";
+    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f525  \f0c8  \f0c8  \f0c8";
   }
   40% {
-    content: "\f525  \f525  \f525  \f525  \f525  \f525";
+    content: "\f525  \f525  \f525  \f525  \f525  \f525  \f0c8  \f0c8  \f0c8  \f0c8";
   }
   50% {
-    content: "\f525  \f525  \f525  \f525  \f525";
+    content: "\f525  \f525  \f525  \f525  \f525  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8";
   }
   60% {
-    content: "\f525  \f525  \f525  \f525";
+    content: "\f525  \f525  \f525  \f525  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8";
   }
   70% {
-    content: "\f525  \f525  \f525";
+    content: "\f525  \f525  \f525  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8";
   }
   80% {
-    content: "\f525  \f525";
+    content: "\f525  \f525  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8";
   }
   90% {
-    content: "\f525";
+    content: "\f525  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8  \f0c8";
   }
   100% {
     content: "\f54c";

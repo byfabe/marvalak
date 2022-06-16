@@ -392,7 +392,7 @@ export const intro_4_3 = new event(
 );
 //#endregion RECONTRE AVEC LE BARDE FIN
 
-export const intro_5_0 = new event("event_5_0");
+export const intro_5_0 = new event("event_5_0", {choix1: {text: "le test", direction: "intro_test_timer"}});
 
 // EXEMPLE CHOIX lOCK
 
@@ -489,22 +489,27 @@ export const intro_5_0 = new event("event_5_0");
 // )
 
 //EXEMPLE TIMER
-// export const intro_test_timer = new eventTimer(
-//   "Une enigme des plus rude, combien font un plus un ?",
-//   {
-//     choice1: {
-//       text: "Ici j'écris une vrais phrase pour voir, juste pour voir",
-//       direction: "intro_test_success",
-//     },
-//     choice2: {
-//       text: "égale 11",
-//       direction: "intro_test_missed",
-//     },
-//   },
-//   "test_missed",
-//   "timer"
-// );
+export const intro_test_timer = new eventTimer(
+  `<img src="./assets/cards/1pique.png" alt=""><img src="@/assets/cards/2pique.png" alt=""><img src="@/assets/cards/3pique.png" alt="">`,
+  {
+    choice1: {
+      text: "Dix secondes.",
+      direction: "intro_test_missed",
+    },
+    choice2: {
+      text: "Vingt secondes.",
+      direction: "intro_test_success",
+    },
+    choice3: {
+      text: "Trente secondes.",
+      direction: "intro_test_missed",
+    },
+  },
+  "intro_test_missed",
+  "timer"
+);
 
-// export const intro_test_success = new event("Timer réussi !");
+export const intro_test_success = new event("Timer réussi !");
 
-// export const intro_test_missed = new event("Timer échec !");
+export const intro_test_missed = new event("Timer échec !");
+
