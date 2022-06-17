@@ -26,7 +26,7 @@
         />
 
         <!-- AFFICHE LE TIMER SI L'EVENT CONTIENT LE MOT CLEE "TIMER" -->
-        <p class="timer" v-if="this.event.timer"></p>
+        <p class="timer anim" v-if="this.event.timer"></p>
       </div>
 
       <!-- TOUTE LA ZONE TEXTE DEBUT -->
@@ -39,18 +39,19 @@
         ></p>
 
         <!-- AFFICHE LES IMAGES SI IL Y A LA CLEE "IMAGES" DANS L'OBJET -->
-        <div class="box-img">
+        <div class="box-img" v-if="this.event.timerTrue === true">
           <img
+            class="animImage"
             v-for="image in this.event.images"
             :key="image"
             :src="require('@/assets/cards/' + image)"
             alt=""
+            draggable="false"
           />
         </div>
 
         <!-- LES TYPES DE CHOIX -->
         <ol v-if="event.test != true">
-          
           <!-- CHOIX CLASSIQUE-->
           <li
             v-html="item.text"
@@ -67,7 +68,12 @@
               :key="item"
               @click="direction(item), fadeText()"
             >
-              <img class="cursor-select" :src="require('@/assets/cards/' + item.image)" alt="" />
+              <img
+                class="cursor-select animImage"
+                :src="require('@/assets/cards/' + item.image)"
+                alt=""
+                draggable="false"
+              />
             </li>
           </div>
 
@@ -230,7 +236,7 @@ export default {
       if (this.event.timer) {
         setTimeout(() => {
           this.event = event[this.event.directionTimer];
-        }, 20000);
+        }, 10000);
       }
 
       //ajoute un objet à l'inventaire si stuff existe
@@ -585,7 +591,7 @@ export default {
   font-family: "Font Awesome 5 Free";
   &::after {
     content: "";
-    animation: countdown 20s forwards;
+    animation: countdown 10s forwards;
   }
 }
 .cursor-select {
