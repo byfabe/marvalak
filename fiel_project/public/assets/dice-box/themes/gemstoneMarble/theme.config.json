@@ -1,0 +1,18 @@
+{
+	"name": "Gemstone Rainbow Marble",
+	"systemName": "gemstoneMarble",
+	"author": "Frank Ali",
+	"version": 0.1,
+	"meshName": "gemstone",
+	"meshFile": "gemstone.json",
+	"material": {
+	  "type": "standard",
+	  "diffuseTexture": "diffuse.jpg",
+	  "bumpTexture": "normal.png",
+	  "specularTexture": "roughness.jpg",
+	  "diffuseLevel": 1.4,
+	  "bumpLevel": 0.9,
+	  "specularPower": 1
+	},
+	"d4FaceDown": false
+  }

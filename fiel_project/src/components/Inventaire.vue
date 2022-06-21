@@ -2,15 +2,15 @@
   <div class="container-inventory">
     <!-- CHARACTER SHEET -->
     <div class="inventory">
-      <!-- <h2>Feuille du personnage</h2> -->
-      <img
+      <h2>Feuille du personnage</h2>
+      <!-- <img
         class="banner"
         src="../assets/images/banniere.png"
         alt=""
         draggable="false"
-      />
+      /> -->
       <div class="name">
-        <span>{{ getCharacter.name }} {{ getCharacter.title }}</span>
+        <span class="text-name">{{ getCharacter.name }} {{ getCharacter.title }}</span>
         <div class="pv-coin">
           <div>
             <i class="fa-solid fa-shield-heart"></i> Point de vie
@@ -23,9 +23,9 @@
         </div>
       </div>
 
+      <!-- <h3>Caractéristiques</h3> -->
       <div class="caracteristique">
         <div class="caracteristique-title">
-          <!-- <h3>Caractéristiques</h3> -->
           <div class="line"></div>
         </div>
         <div class="carateristique-wrapper">
@@ -50,7 +50,7 @@
 
       <div class="arrow">
         <img
-          src="../assets/images/arrow5.png"
+          src="../assets/images/arrow500.png"
           alt=""
           @click="
             hiddenSwitch();
@@ -111,7 +111,7 @@
       </div>
       <div class="arrow">
         <img
-          src="../assets/images/arrow5.png"
+          src="../assets/images/arrow500.png"
           alt=""
           @click="
             hiddenSwitch();
@@ -207,12 +207,17 @@ export default {
       text-align: center;
     }
     & .banner {
-      width: 100%;
+      width: 80%;
+      margin: 0 auto;
     }
     & .name {
       display: block;
       margin: 5% 0;
       text-align: center;
+      & .text-name {
+        display: inline-block;
+        margin: 5% 0;
+      }
       & .pv-coin {
         display: flex;
         margin: 8% 0 0 1%;
@@ -239,7 +244,7 @@ export default {
           font-size: clamp(5px, 2.5vw, 22px);
         }
         & .line {
-          width: 80%;
+          width: 65%;
           height: 54px;
           background: url("../assets/images/line10.png");
           background-size: 100%;
@@ -313,9 +318,9 @@ export default {
 .arrow {
   position: absolute;
   bottom: 7%;
-  left: 40%;
+  left: 35%;
   & img {
-    width: 70px;
+    width: 50%;
     cursor: url("../assets/images/use.cur"), auto;
   }
 }

@@ -196,7 +196,7 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_5_0,
+      event: event.intro_4_2,
 
       //Inventory
 
@@ -265,7 +265,7 @@ export default {
       const diceBox = new DiceBox("#dice-box", {
         assetPath: "/assets/dice-box/",
         scale: "4",
-        theme: "galvanized",
+        theme: "diceOfRolling",
       });
       diceBox.init().then(() => {
         diceBox.roll("1d6").then((results) => {
@@ -301,6 +301,7 @@ export default {
         const diceBox = new DiceBox("#dice-box", {
           assetPath: "/assets/dice-box/",
           scale: "4",
+          theme: "wooden"
         });
         diceBox.init().then(() => {
           diceBox.roll("1d6").then((results) => {
