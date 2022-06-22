@@ -17,16 +17,20 @@ class event {
 }
 
 class test {
-  constructor(text, test) {
+  constructor(text, test, dice, diceNumber) {
     this.text = text;
     this.test = test;
+    this.dice = dice;
+    this.diceNumber = diceNumber;
   }
 }
 
 class eventMultiTest extends event {
-  constructor(text, choices, test) {
+  constructor(text, choices, test, dice, diceNumber) {
     super(text, choices);
     this.test = test;
+    this.dice = dice;
+    this.diceNumber = diceNumber;
   }
 }
 
@@ -209,7 +213,7 @@ export const intro_3_0 = new event(
     },
     choice2: {
       text: "Vous continuez votre chemin.",
-      direction: "intro_4_0",
+      direction: "intro_test_fight_1",
     },
   }
 );
@@ -230,7 +234,11 @@ export const intro_3_1 = new test(
         direction: "intro_3_1_missed",
       },
     },
-  }
+  },
+  //dice
+  "wooden",
+  //diceNumber
+  "1d20"
 );
 
 export const intro_3_1_success = new event(
@@ -240,7 +248,7 @@ export const intro_3_1_success = new event(
   {
     choice1: {
       text: "Vous prenez la bourse.",
-      direction: "intro_4_0",
+      direction: "intro_test_fight_1",
       stuff: stuff.bourse2,
     },
   }
@@ -253,11 +261,36 @@ export const intro_3_1_missed = new event(
   {
     choice1: {
       text: "Vous continuez votre route.",
-      direction: "intro_4_0",
+      direction: "intro_test_fight_1",
     },
   }
 );
 //#endregion TEST PERCEPTION FIN
+
+//#region TEST COMBAT 4-5-6 pas de combat | 1-2-3 combat
+export const intro_test_fight_1 = new test(
+  //Story
+  `Confrontez votre destinée.`,
+  //test
+  {
+    test1: {
+      text: "Faites un test de rencontre 6.",
+      hability: "fightTest",
+      valueTest: 4,
+      success: {
+        direction: "intro_4_0",
+      },
+      missed: {
+        direction: "bestiary_voyou_des_bois",
+      },
+    },
+  },
+  //dice
+  "gemstoneMarble",
+  //diceNumber
+  "1d6"
+);
+//#endregion
 
 //#region RENCONTRE AVEC LE BARDE 4_0 DEBUT
 export const intro_4_0 = new event(
@@ -331,7 +364,11 @@ export const intro_4_1_1 = new eventMultiTest(
         direction: "intro_4_1_1_2_missed",
       },
     },
-  }
+  },
+  //dice
+  "wooden",
+  //diceNumber
+  "1d20"
 );
 
 export const intro_4_1_1_1 = new event(
@@ -399,7 +436,7 @@ export const intro_5_0 = new event("event_5_0", {
   choix1: { text: "le test", direction: "intro_test_timer" },
 });
 
-// EXEMPLE CHOIX lOCK
+//#region EXEMPLE eventMultiTestLock
 
 // export const intro_5_0 = new eventMultiTestLock(
 //   //Story
@@ -492,30 +529,33 @@ export const intro_5_0 = new event("event_5_0", {
 //     },
 //   }
 // )
+// #endregion
 
-//EXEMPLE TIMER
-export const intro_test_timer = new eventTimer(
-  `Trouver la solution.`,
-  {
-    choice1: {
-      direction: "intro_test_missed",
-      image: "5pique.png",
-    },
-    choice2: {
-      direction: "intro_test_success",
-      image: "4pique.png",
-    },
-    choice3: {
-      direction: "intro_test_missed",
-      image: "8pique.png",
-    },
-  },
-  "intro_test_missed",
-  "timer",
-  ["1pique.png", "2pique.png", "3pique.png", "blank.png"],
-  true
-);
+//#region EXEMPLE eventTimer
+// export const intro_test_timer = new eventTimer(
+//   `Trouver la solution.`,
+//   {
+//     choice1: {
+//       direction: "intro_test_missed",
+//       image: "5pique.png",
+//     },
+//     choice2: {
+//       direction: "intro_test_success",
+//       image: "4pique.png",
+//     },
+//     choice3: {
+//       direction: "intro_test_missed",
+//       image: "8pique.png",
+//     },
+//   },
+//   "intro_test_missed",
+//   "timer",
+//   ["1pique.png", "2pique.png", "3pique.png", "blank.png"],
+//   true
+// );
 
-export const intro_test_success = new event("Timer réussi !");
+// export const intro_test_success = new event("Timer réussi !");
 
-export const intro_test_missed = new event("Timer échec !");
+// export const intro_test_missed = new event("Timer échec !");
+
+//#endregion

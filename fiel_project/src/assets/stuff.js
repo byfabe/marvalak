@@ -58,3 +58,20 @@ export const bourse2 = new stuff(
   "rgb(46, 4, 24);"
 );
 //#endregion
+
+//#region CLEF A GORGES
+export const clef_gorges = new stuff(
+  //name
+  "Clef à gorges",
+  //description
+  "Elle ouvre des portes.",
+  //categoryObject
+  "clef",
+  //categoryEffect
+  "",
+  //effect
+  "",
+  //color
+  "rgb(46, 4, 24);"
+);
+//#endregion

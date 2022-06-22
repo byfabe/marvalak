@@ -136,6 +136,7 @@
             <!-- CHOIX DE LA VICTOIRE -->
             <p
               class="choice"
+              v-html="event.result.win.text"
               v-if="this.win === true"
               @click="
                 direction(event.result.win),
@@ -143,9 +144,7 @@
                   effect(event.result.win),
                   addObject(event.result.win)
               "
-            >
-              {{ event.result.win.text }}
-            </p>
+            ></p>
 
             <!-- CHOIX DE LA DEFAITE -->
             <p
@@ -196,7 +195,7 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_4_2,
+      event: event.intro_4_1_1,
 
       //Inventory
 
@@ -301,7 +300,7 @@ export default {
         const diceBox = new DiceBox("#dice-box", {
           assetPath: "/assets/dice-box/",
           scale: "4",
-          theme: "wooden"
+          theme: "wooden",
         });
         diceBox.init().then(() => {
           diceBox.roll("1d6").then((results) => {
@@ -373,9 +372,10 @@ export default {
         const diceBox = new DiceBox("#dice-box", {
           assetPath: "/assets/dice-box/",
           scale: "4",
+          theme: this.event.dice,
         });
         diceBox.init().then(() => {
-          diceBox.roll("1d20").then((results) => {
+          diceBox.roll(this.event.diceNumber).then((results) => {
             if (this.valueRollTest === undefined) {
               this.valueRollTest = results[0].value;
               this.test(item);

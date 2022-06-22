@@ -34,11 +34,11 @@
             <span>{{ getInventory.force }}</span>
           </div>
           <div>
-            <i class="fa-solid fa-bacon"></i> Dextérité
+            <i class="fa-solid fa-bacon"></i> Célérité
             <span>{{ getInventory.dexterity }}</span>
           </div>
           <div>
-            <i class="fa-solid fa-hat-wizard"></i> Perception
+            <i class="fa-solid fa-hurricane"></i> Perception
             <span>{{ getInventory.perception }}</span>
           </div>
           <div>

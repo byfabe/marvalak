@@ -82,7 +82,30 @@ export const bestiary_barde_event_4_2 = new fight(
 );
 //#endregion
 
-
+//#region VOYOU DES BOIS
+export const bestiary_voyou_des_bois = new fight(
+  //text
+  `Vous vous préparez au combat.`,
+  //name
+  `Voyou des bois`,
+  //strength
+  2,
+  //result
+  {
+    win: {
+      text: `Vous arrachez la fripouille à la vie. Dans ses poches se trouve une <p data-text="${stuff.clef_gorges.description}" class="tooltip anim cursor-select" style="color: ${stuff.clef_gorges.color}">${stuff.clef_gorges.name}.</p>`,
+      direction: "intro_4_0",
+      stuff: stuff.clef_gorges,
+    },
+    lose: {
+      text: `Vous perdez 1<i class="fa-solid fa-shield-heart">.`,
+      direction: "intro_4_0",
+      categoryEffect: "pv",
+      effect: -1,
+    },
+  }
+);
+//#endregion
 
 //#region exemple stuff/effect
 // {

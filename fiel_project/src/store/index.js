@@ -2,13 +2,18 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    
     character: { name: "Gurthang", title: "~ le fer de la mort" },
 
     inventory: {
+
+      //Stat pour le jet de rencontre ennemi
+      fightTest: 0,
+
       pv: 10,
       gold: 0,
       force: 1,
-      dexterity: 1,
+      celerite: 1,
       perception: 1,
       erudition: 1,
       humeur: "calme",
@@ -17,11 +22,13 @@ export default createStore({
       objets: [],
       clef: [],
     },
+
   },
   getters: {
     getInventory: (state) => state.inventory,
     getCharacter: (state) => state.character,
   },
+
   mutations: {
     ADD_OBJECTS(state, data) {
       state.inventory[data.categoryObject].push(data);
@@ -33,6 +40,7 @@ export default createStore({
       state.inventory.pv = data;
     },
   },
+
   actions: {},
   modules: {},
 });
