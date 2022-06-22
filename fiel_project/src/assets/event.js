@@ -43,11 +43,10 @@ class eventMultiTestLock extends event {
 }
 
 class eventTimer {
-  constructor(text, choicesImg, directionTimer, timer, images, timerTrue) {
+  constructor(text, choicesImg, directionTimer, images, timerTrue) {
     this.text = text;
     this.choicesImg = choicesImg;
     this.directionTimer = directionTimer;
-    this.timer = timer;
     this.images = images;
     this.timerTrue = timerTrue;
   }
@@ -213,7 +212,7 @@ export const intro_3_0 = new event(
     },
     choice2: {
       text: "Vous continuez votre chemin.",
-      direction: "intro_test_fight_1",
+      direction: "intro_test_meet_1",
     },
   }
 );
@@ -248,7 +247,7 @@ export const intro_3_1_success = new event(
   {
     choice1: {
       text: "Vous prenez la bourse.",
-      direction: "intro_test_fight_1",
+      direction: "intro_test_meet_1",
       stuff: stuff.bourse2,
     },
   }
@@ -261,21 +260,21 @@ export const intro_3_1_missed = new event(
   {
     choice1: {
       text: "Vous continuez votre route.",
-      direction: "intro_test_fight_1",
+      direction: "intro_test_meet_1",
     },
   }
 );
 //#endregion TEST PERCEPTION FIN
 
-//#region TEST COMBAT 4-5-6 pas de combat | 1-2-3 combat
-export const intro_test_fight_1 = new test(
+//#region TEST RENCONTRE | 1-2-3 rencontre | 4-5-6 rien
+export const intro_test_meet_1 = new test(
   //Story
   `Confrontez votre destinée.`,
   //test
   {
     test1: {
       text: "Faites un test de rencontre 6.",
-      hability: "fightTest",
+      hability: "meetTest",
       valueTest: 4,
       success: {
         direction: "intro_4_0",
@@ -426,11 +425,143 @@ export const intro_4_3 = new event(
   {
     choice1: {
       text: "Continuez votre route.",
-      direction: "intro_5_0",
+      direction: "intro_test_meet_2",
     },
   }
 );
 //#endregion RECONTRE AVEC LE BARDE FIN
+
+//#region TEST RENCONTRE JOUEUSE DE CARTES
+export const intro_test_meet_2 = new test(
+  //Story
+  `Confrontez votre destinée.`,
+  //test
+  {
+    test1: {
+      text: "Faites un test de rencontre 6.",
+      hability: "meetTest",
+      valueTest: 4,
+      success: {
+        direction: "intro_5_0",
+      },
+      missed: {
+        direction: "intro_cards_player_1",
+      },
+    },
+  },
+  //dice
+  "gemstoneMarble",
+  //diceNumber
+  "1d6"
+);
+
+export const intro_cards_player_1 = new eventTimer(
+  //Text
+  `Une joueuse de cartes solitaire s'approche de vous: “Trouverez-vous la solution ?”`,
+  //choicesImg
+  {
+    choice1: {
+      direction: "intro_cards_player_1_missed",
+      image: "5pique.png",
+    },
+    choice2: {
+      direction: "intro_cards_player_1_success_0",
+      image: "4pique.png",
+    },
+    choice3: {
+      direction: "intro_cards_player_1_missed",
+      image: "8pique.png",
+    },
+  },
+  //directionTimer
+  "intro_cards_player_1_missed",
+
+  //Images
+  ["1pique.png", "2pique.png", "3pique.png", "blank.png"],
+  //timerTrue
+  true
+);
+
+export const intro_cards_player_1_success_0 = new eventTimer(
+  //Text
+  `“Continuons.”`,
+  //choicesImg
+  {
+    choice1: {
+      direction: "intro_cards_player_1_success_1",
+      image: "damecarreau.png",
+    },
+    choice2: {
+      direction: "intro_cards_player_1_missed",
+      image: "1trefle.png",
+    },
+    choice3: {
+      direction: "intro_cards_player_1_missed",
+      image: "valetcarreau.png",
+    },
+  },
+  //directionTimer
+  "intro_cards_player_1_missed",
+
+  //Images
+  ["roitrefle.png", "blank.png", "valetpique.png", "10coeur.png"],
+  //timerTrue
+  true
+);
+
+export const intro_cards_player_1_success_1 = new eventTimer(
+
+  //Text
+  `“Et pour finir.”`,
+
+  //choicesImg
+  {
+    choice1: {
+      direction: "intro_cards_player_1_missed",
+      image: "4pique.png",
+    },
+    choice2: {
+      direction: "intro_cards_player_1_missed",
+      image: "2coeur.png",
+    },
+    choice3: {
+      direction: "intro_cards_player_1_success_2",
+      image: "2carreau.png",
+    },
+  },
+  //directionTimer
+  "intro_cards_player_1_missed",
+  //Images
+  ["blank.png", "3carreau.png", "2pique.png", "3pique.png"],
+  //timerTrue
+  true
+);
+
+export const intro_cards_player_1_success_2 = new event(
+  //Text
+  `“Un esprit fin dans un corps de lâche, quelle journée fabuleuse. <p>Prenez cet anneau en gage de récompense.”</p> La joueuse de cartes s'éloigne de vous jusqu'à disparaître.`,
+  //Choices
+  {
+    choice1: {
+      text: `Vous prenez l'<p data-text="${stuff.anneau_neuf_sens.description}" class="tooltip anim cursor-select" style="color: ${stuff.anneau_neuf_sens.color}">${stuff.anneau_neuf_sens.name}.</p>`,
+      direction: "intro_5_0",
+      stuff: stuff.anneau_neuf_sens,
+    },
+  }
+);
+
+export const intro_cards_player_1_missed = new event(
+  //Text
+  `“C'est un échec lourd de conséquences.”, dit la joueuse de cartes en s'éloignant de vous.`,
+  //Choices
+  {
+    choice1: {
+      text: "Continuez votre route.",
+      direction: "intro_5_0",
+    },
+  }
+);
+//#endregion
 
 export const intro_5_0 = new event("event_5_0", {
   choix1: { text: "le test", direction: "intro_test_timer" },

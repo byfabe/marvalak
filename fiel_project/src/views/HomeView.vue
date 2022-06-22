@@ -2,7 +2,7 @@
   <div class="home" id="home">
     <div id="dice-box"></div>
     <Inventaire />
-    <img class="map" src="../assets/images/map2.png" alt="" draggable="false" />
+    <img class="map" src="@/assets/images/map2.png" alt="" draggable="false" />
     <div class="card">
       <!-- <div class="illustration"></div> -->
       <!-- ICONES DES EVENEMENTS -->
@@ -26,7 +26,7 @@
         />
 
         <!-- AFFICHE LE TIMER SI L'EVENT CONTIENT LE MOT CLEE "TIMER" -->
-        <p class="timer anim" v-if="this.event.timer"></p>
+        <p class="timer anim" v-if="this.event.timerTrue === true"></p>
       </div>
 
       <!-- TOUTE LA ZONE TEXTE DEBUT -->
@@ -41,7 +41,6 @@
         <!-- AFFICHE LES IMAGES SI IL Y A LA CLEE "IMAGES" DANS L'OBJET -->
         <div class="box-img" v-if="this.event.timerTrue === true">
           <img
-            class="animImage"
             v-for="image in this.event.images"
             :key="image"
             :src="require('@/assets/cards/' + image)"
@@ -195,7 +194,7 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_4_1_1,
+      event: event.intro_cards_player_1,
 
       //Inventory
 
@@ -231,12 +230,12 @@ export default {
         this.event = test[item.direction];
       }
 
-      //Si il y a un timer se dirige vers la direction au bout de 20s
-      if (this.event.timer) {
-        setTimeout(() => {
-          this.event = event[this.event.directionTimer];
-        }, 10000);
-      }
+      //Si il y a un timer se dirige vers la direction au bout de 10s
+      // if (this.event.timer) {
+      //   setTimeout(() => {
+      //     this.event = event[this.event.directionTimer];
+      //   }, 10000);
+      // }
 
       //ajoute un objet à l'inventaire si stuff existe
       this.addObject(item);
@@ -433,10 +432,10 @@ export default {
     //Fondu du texte pendant les transitions
     fadeText() {
       let p = document.querySelector(".text");
-      p.classList.add("anim");
+      p.classList.add("animImage");
 
       setTimeout(() => {
-        p.classList.remove("anim");
+        p.classList.remove("animImage");
       }, 900);
     },
 

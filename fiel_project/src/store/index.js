@@ -2,13 +2,13 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    
+
     character: { name: "Gurthang", title: "~ le fer de la mort" },
 
     inventory: {
 
-      //Stat pour le jet de rencontre ennemi
-      fightTest: 0,
+      //Stat pour le jet de rencontre 
+      meetTest: 0,
 
       pv: 10,
       gold: 0,

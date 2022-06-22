@@ -58,6 +58,22 @@ class fight {
   }
 }
 
+//#region exemple stuff/effect
+// {
+//   win: {
+//     text: "Vous étalez le barde, le dépossédant au passage de quelques chicots.",
+//     direction: "intro_5_0",
+//     stuff : stuff.bourse2
+//   },
+//   lose: {
+//     text: "Dans une flopée de coups bas en tout genre, le barde vous assène le coup fatal, une chiquenaude sur le front, quelle humiliation…",
+//     direction: "intro_4_2_lose",
+//     categoryEffect: "pv",
+//     effect: -1,
+//   }
+// },
+//#endregion
+
 //#region BARDE EVENT 4_2 DEBUT
 export const bestiary_barde_event_4_2 = new fight(
   //text
@@ -70,11 +86,11 @@ export const bestiary_barde_event_4_2 = new fight(
   {
     win: {
       text: "Vous étalez le barde, le dépossédant au passage de quelques chicots.",
-      direction: "intro_5_0",
+      direction: "intro_test_meet_2",
     },
     lose: {
       text: `Dans une flopée de coups bas en tout genre, le barde vous assène le coup fatal, une chiquenaude sur le front, quelle humiliation… <p>Vous perdez 1<i class="fa-solid fa-shield-heart">.</p>`,
-      direction: "intro_5_0",
+      direction: "intro_test_meet_2",
       categoryEffect: "pv",
       effect: -1,
     },
@@ -107,18 +123,3 @@ export const bestiary_voyou_des_bois = new fight(
 );
 //#endregion
 
-//#region exemple stuff/effect
-// {
-//   win: {
-//     text: "Vous étalez le barde, le dépossédant au passage de quelques chicots.",
-//     direction: "intro_5_0",
-//     stuff : stuff.bourse2
-//   },
-//   lose: {
-//     text: "Dans une flopée de coups bas en tout genre, le barde vous assène le coup fatal, une chiquenaude sur le front, quelle humiliation…",
-//     direction: "intro_4_2_lose",
-//     categoryEffect: "pv",
-//     effect: -1,
-//   }
-// },
-//#endregion

@@ -75,3 +75,20 @@ export const clef_gorges = new stuff(
   "rgb(46, 4, 24);"
 );
 //#endregion
+
+//#region BAGUE DE PERCEPTION +2
+export const anneau_neuf_sens = new stuff(
+  //name
+  "Anneau neuf sens",
+  //description
+  "Un anneau ésotérique qui s'adpate à la taille de votre doigt. Il augmente la perception.",
+  //categoryObject
+  "armures",
+  //categoryEffect
+  "perception",
+  //effect
+  +2,
+  //color
+  "rgb(46, 4, 24);"
+);
+//#endregion
