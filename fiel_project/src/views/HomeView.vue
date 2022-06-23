@@ -26,7 +26,7 @@
         />
 
         <!-- AFFICHE LE TIMER SI L'EVENT CONTIENT LE MOT CLEE "TIMER" -->
-        <p class="timer anim" v-if="this.event.timerTrue === true"></p>
+        <p class="timer anim time" v-if="this.event.timerTrue === true"></p>
       </div>
 
       <!-- TOUTE LA ZONE TEXTE DEBUT -->
@@ -184,6 +184,7 @@ import * as event from "@/assets/event.js";
 import * as bestiary from "@/assets/bestiary.js";
 import * as test from "@/assets/test.js";
 import DiceBox from "@3d-dice/dice-box";
+
 export default {
   name: "HomeView",
   components: {
@@ -194,7 +195,7 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_cards_player_1,
+      event: event.intro_test_meet_2,
 
       //Inventory
 
@@ -213,6 +214,9 @@ export default {
 
       //Audio
       mute: false,
+
+      //timer
+      timer: null,
     };
   },
   methods: {
@@ -230,12 +234,10 @@ export default {
         this.event = test[item.direction];
       }
 
-      //Si il y a un timer se dirige vers la direction au bout de 10s
-      // if (this.event.timer) {
-      //   setTimeout(() => {
-      //     this.event = event[this.event.directionTimer];
-      //   }, 10000);
-      // }
+      // Si il y a un timer se dirige vers la direction au bout de 10s
+      if (this.event.timerTrue === true) {
+        this.runTimer();
+      }
 
       //ajoute un objet à l'inventaire si stuff existe
       this.addObject(item);
@@ -255,6 +257,31 @@ export default {
       this.valueRollTest = undefined;
       this.win = false;
       this.lose = false;
+    },
+
+    //Clear le setTimeout si il y a un timer d'actif
+    //Lance un nouveau setTimeout avec run()
+    //Retire la classe "timer" pour reset l'animation
+    runTimer() {
+      let classTime = document.querySelector('.time')
+      if (this.timer !== null) {
+        clearTimeout(this.timer);
+        this.timer = null;
+        classTime.classList.remove('timer', "anim")
+      }
+      this.run(classTime);
+    },
+
+    //Timer de 10s > se dirige vers l'event "directionTimer"
+    //Ajoute la classe "timer" pour relancer de zéro l'animation
+    run(classTime) {
+      this.timer = setTimeout(() => {
+        this.event = event[this.event.directionTimer];
+        this.fadeText();
+      }, 10000);
+      setTimeout(() => {
+        classTime.classList.add('timer', "anim")
+      }, 100);
     },
 
     //Roll ennemy

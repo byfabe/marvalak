@@ -440,7 +440,7 @@ export const intro_test_meet_2 = new test(
     test1: {
       text: "Faites un test de rencontre 6.",
       hability: "meetTest",
-      valueTest: 4,
+      valueTest: 44,
       success: {
         direction: "intro_5_0",
       },
@@ -479,7 +479,7 @@ export const intro_cards_player_1 = new eventTimer(
   //Images
   ["1pique.png", "2pique.png", "3pique.png", "blank.png"],
   //timerTrue
-  true
+  true,
 );
 
 export const intro_cards_player_1_success_0 = new eventTimer(
@@ -506,7 +506,7 @@ export const intro_cards_player_1_success_0 = new eventTimer(
   //Images
   ["roitrefle.png", "blank.png", "valetpique.png", "10coeur.png"],
   //timerTrue
-  true
+  true,
 );
 
 export const intro_cards_player_1_success_1 = new eventTimer(
@@ -534,7 +534,7 @@ export const intro_cards_player_1_success_1 = new eventTimer(
   //Images
   ["blank.png", "3carreau.png", "2pique.png", "3pique.png"],
   //timerTrue
-  true
+  true,
 );
 
 export const intro_cards_player_1_success_2 = new event(
