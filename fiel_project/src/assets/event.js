@@ -9,6 +9,131 @@
 import * as stuff from "@/assets/stuff.js";
 import * as tooltip from "@/assets/tooltip.js";
 
+//#region EXEMPLE eventMultiTestLock
+
+// export const intro_5_0 = new eventMultiTestLock(
+//   //Story
+//   "Multiple test",
+//   //choices
+//   {
+//     choice1: {
+//       text: "choix 1",
+//       direction: "intro_5_0",
+//     },
+//     choice2: {
+//       text: "choix 2",
+//       direction: "intro_0_0",
+//     },
+//   },
+//   //lock
+//   {
+//     choice3: {
+//       text: `<i class="fa-solid fa-lock lock-icon"></i> <i class="fa-solid fa-lock-open hide lock-icon"></i> Vous avez la clef sombre pour ouvrir cette porte.`,
+//       direction: "intro_0_0",
+//       lock: "lock",
+//       object: "clef sombre"
+//     },
+//   },
+//   //test
+//   {
+//     test1: {
+//       text: "test1",
+//       hability: "perception",
+//       valueTest: 10,
+//       success: {
+//         direction: "intro_5_test_perception_success",
+//       },
+//       missed: {
+//         direction: "intro_5_test_perception_missed",
+//       },
+//     },
+//     test2: {
+//       text: "test2",
+//       hability: "force",
+//       valueTest: 10,
+//       success: {
+//         direction: "intro_5_test_force_success",
+//       },
+//       missed: {
+//         direction: "intro_5_test_force_missed",
+//       },
+//     },
+//   },
+//   //multiTest
+//   true,
+// );
+
+// export const intro_5_test_perception_success = new eventMultiTest(
+//   "test perception réussi",
+//   {
+//     choice1: {
+//       text: "Continuez",
+//       direction: "test_0_0",
+//     },
+//   }
+// )
+
+// export const intro_5_test_perception_missed = new eventMultiTest(
+//   "test perception échec",
+//   {
+//     choice1: {
+//       text: "Continuez",
+//       direction: "test_0_0",
+//     },
+//   }
+// )
+
+// export const intro_5_test_force_success = new eventMultiTest(
+//   "test force réussi",
+//   {
+//     choice1: {
+//       text: "Continuez",
+//       direction: "test_0_0",
+//     },
+//   }
+// )
+
+// export const intro_5_test_force_missed = new eventMultiTest(
+//   "test force échec",
+//   {
+//     choice1: {
+//       text: "Continuez",
+//       direction: "test_0_0",
+//     },
+//   }
+// )
+// #endregion
+
+//#region EXEMPLE eventTimer
+// export const intro_test_timer = new eventTimer(
+//   `Trouver la solution.`,
+//   {
+//     choice1: {
+//       direction: "intro_test_missed",
+//       image: "5pique.png",
+//     },
+//     choice2: {
+//       direction: "intro_test_success",
+//       image: "4pique.png",
+//     },
+//     choice3: {
+//       direction: "intro_test_missed",
+//       image: "8pique.png",
+//     },
+//   },
+//   "intro_test_missed",
+//   "timer",
+//   ["1pique.png", "2pique.png", "3pique.png", "blank.png"],
+//   true
+// );
+
+// export const intro_test_success = new event("Timer réussi !");
+
+// export const intro_test_missed = new event("Timer échec !");
+
+//#endregion
+
+
 class event {
   constructor(text, choices) {
     this.text = text;
@@ -377,7 +502,18 @@ export const intro_4_1_1_1 = new event(
   {
     choice1: {
       text: "Vous écoutez pendant des heures les fastidieuses aventures du barde.",
-      direction: "intro_5_0",
+      direction: "intro_4_1_1_1_1",
+    },
+  }
+);
+
+export const intro_4_1_1_1_1 = new event(
+  //Story
+  `Et maintenant jeune personne, je vais devoir disposer.” dit le barde en faisant une petite révérence, “Nous nous reverrons bientôt, je l'espère, que votre journée soit douce et qu’elle parfume les cœurs.`,
+  {
+    choice1: {
+      text: "Vous regardez Algus s’éloigner et vous continuez votre route.",
+      direction: "intro_test_meet_2",
     },
   }
 );
@@ -389,7 +525,7 @@ export const intro_4_1_1_2_success = new event(
   {
     choice1: {
       text: "Continuez votre route.",
-      direction: "intro_5_0",
+      direction: "intro_test_meet_2",
     },
   }
 );
@@ -438,9 +574,9 @@ export const intro_test_meet_2 = new test(
   //test
   {
     test1: {
-      text: "Faites un test de rencontre 6.",
+      text: `Faites un test de rencontre [<i class="fa-solid fa-gem cursor"></i>6].`,
       hability: "meetTest",
-      valueTest: 44,
+      valueTest: 4,
       success: {
         direction: "intro_5_0",
       },
@@ -479,7 +615,7 @@ export const intro_cards_player_1 = new eventTimer(
   //Images
   ["1pique.png", "2pique.png", "3pique.png", "blank.png"],
   //timerTrue
-  true,
+  true
 );
 
 export const intro_cards_player_1_success_0 = new eventTimer(
@@ -506,11 +642,10 @@ export const intro_cards_player_1_success_0 = new eventTimer(
   //Images
   ["roitrefle.png", "blank.png", "valetpique.png", "10coeur.png"],
   //timerTrue
-  true,
+  true
 );
 
 export const intro_cards_player_1_success_1 = new eventTimer(
-
   //Text
   `“Et pour finir.”`,
 
@@ -534,7 +669,7 @@ export const intro_cards_player_1_success_1 = new eventTimer(
   //Images
   ["blank.png", "3carreau.png", "2pique.png", "3pique.png"],
   //timerTrue
-  true,
+  true
 );
 
 export const intro_cards_player_1_success_2 = new event(
@@ -563,130 +698,148 @@ export const intro_cards_player_1_missed = new event(
 );
 //#endregion
 
-export const intro_5_0 = new event("event_5_0", {
-  choix1: { text: "le test", direction: "intro_test_timer" },
-});
+//#region CHOIX DE LA DIRECTION GAUCHE - DROITE
+export const intro_5_0 = new event(
+  //story
+  `Après plusieurs heures d’une marche semblant interminable, vous constatez que le chemin se sépare en deux directions, la route de gauche est rectiligne et présente les traces de roues d’une charrette, quant à la route de droite, elle est étroite, sinueuse et sombre.`,
+  //choices
+  {
+    choice1: {
+      text: `<p style="color: rgb(0, 0, 0, 0.336)">Prendre la route de gauche. <span style="font-style: italic">(Prochainement)</span>`,
+      direction: "left_0_0",
+      class: "pointer-event"
+    },
+    choice2: {
+      text: "Prendre la route de droite.",
+      direction: "right_0_0"
+    }
+  }
+);
+//#endregion
 
-//#region EXEMPLE eventMultiTestLock
+//#region DIRECTION A GAUCHE
+//#endregion
 
-// export const intro_5_0 = new eventMultiTestLock(
-//   //Story
-//   "Multiple test",
-//   //choices
-//   {
-//     choice1: {
-//       text: "choix 1",
-//       direction: "intro_5_0",
-//     },
-//     choice2: {
-//       text: "choix 2",
-//       direction: "intro_0_0",
-//     },
-//   },
-//   //lock
-//   {
-//     choice3: {
-//       text: `<i class="fa-solid fa-lock lock-icon"></i> <i class="fa-solid fa-lock-open hide lock-icon"></i> Vous avez la clef sombre pour ouvrir cette porte.`,
-//       direction: "intro_0_0",
-//       lock: "lock",
-//       object: "clef sombre"
-//     },
-//   },
-//   //test
-//   {
-//     test1: {
-//       text: "test1",
-//       hability: "perception",
-//       valueTest: 10,
-//       success: {
-//         direction: "intro_5_test_perception_success",
-//       },
-//       missed: {
-//         direction: "intro_5_test_perception_missed",
-//       },
-//     },
-//     test2: {
-//       text: "test2",
-//       hability: "force",
-//       valueTest: 10,
-//       success: {
-//         direction: "intro_5_test_force_success",
-//       },
-//       missed: {
-//         direction: "intro_5_test_force_missed",
-//       },
-//     },
-//   },
-//   //multiTest
-//   true,
-// );
+//#region DIRECTION A DROITE
+export const right_0_0 = new test(
+  //story
+  `Vous suivez l’étroit sentier, au fur et à mesure de vos pas le silence s’impose, plus aucun son ne parvient à vos oreilles, la clarté du jour laisse place à un épais voile sombre qui réduit entièrement votre vision.`,
+  //test
+  {
+    test1: {
+      text: "Faites un test de perception 12.",
+      hability: "perception",
+      valueTest: 0,
+      success: {
+        direction: "right_0_1_success",
+      },
+      missed: {
+        direction: "",
+      },
+    },
+  },
+  //dice
+  "wooden",
+  //diceNumber
+  "1d20"
+)
 
-// export const intro_5_test_perception_success = new eventMultiTest(
-//   "test perception réussi",
-//   {
-//     choice1: {
-//       text: "Continuez",
-//       direction: "test_0_0",
-//     },
-//   }
-// )
+export const right_0_1_success = new event(
+  //story
+  `Vous remarquez non loin de vous un nez-de-chat luminescent, sa lueur est à peine visible, mais plus vous vous approchez et plus cette lueur s'intensifie.`,
+  //choices
+  {
+    choice1: {
+      text: `Cueillir le <p data-text="${stuff.champignon.description}" class="tooltip anim" style="color: ${stuff.champignon.color}">${stuff.champignon.name}</p>.`,
+      direction: "right_1_0",
+      stuff: stuff.champignon
+    },
+    choice2: {
+      text: `<p style="color: rgb(0, 0, 0, 0.336)">S’éloigner et continuer d’avancer dans l’obscurité. <span style="font-style: italic">(Prochainement)</span></p>`, //SOON//
+      direction: "",
+      class: "pointer-event"
+    }
+  }
+)
 
-// export const intro_5_test_perception_missed = new eventMultiTest(
-//   "test perception échec",
-//   {
-//     choice1: {
-//       text: "Continuez",
-//       direction: "test_0_0",
-//     },
-//   }
-// )
+export const right_1_0 = new event(
+  //story
+  `Au contact du champignon vous ressentez un picotement qui vous parcourt le corps, vos paupières se figent, vos yeux sont tels des morceaux de glace, votre corps devient léger et un chemin se dessine dans votre esprit, il vous guide.`,
+  //choices
+  {
+    choice1: {
+      text: "Vous vous laissez guider.",
+      direction: "right_1_1"
+    }
+  }
+)
 
-// export const intro_5_test_force_success = new eventMultiTest(
-//   "test force réussi",
-//   {
-//     choice1: {
-//       text: "Continuez",
-//       direction: "test_0_0",
-//     },
-//   }
-// )
+export const right_1_1 = new event(
+  //story
+  `Un pas après l’autre et avec pour seule vision, celles de vos pensées, vous avancez sur une allée ornée de nez-de-chats luminescents, telle des lanternes qui éclairent la voie éternelle. Elles vous entraînent vers une direction, vous vous sentez paisible, ces lueurs qui vous entourent sont un antre de quiétude sans pareil.
+  `,
+  //choices
+  {
+    choice1: {
+      text: "Continuer.",
+      direction: "right_1_1_next"
+    }
+  }
+)
 
-// export const intro_5_test_force_missed = new eventMultiTest(
-//   "test force échec",
-//   {
-//     choice1: {
-//       text: "Continuez",
-//       direction: "test_0_0",
-//     },
-//   }
-// )
-// #endregion
+export const right_1_1_next = new event(
+  //story
+  `Vous arrivez dans une clairière, les papillons batifolent dans les airs, les hautes-herbes ont la douceur du coton et des fleurs aux couleurs chatoyantes dégagent un parfum qui enivrent vos sens. Au loin, vous remarquez une silhouette qui semble figée dans l’espace.`,
+  //choices
+  {
+    choice1: {
+      text: "Vous vous approchez de la silhouette.",
+      direction: "right_1_1_1"
+    }
+  }
+)
 
-//#region EXEMPLE eventTimer
-// export const intro_test_timer = new eventTimer(
-//   `Trouver la solution.`,
-//   {
-//     choice1: {
-//       direction: "intro_test_missed",
-//       image: "5pique.png",
-//     },
-//     choice2: {
-//       direction: "intro_test_success",
-//       image: "4pique.png",
-//     },
-//     choice3: {
-//       direction: "intro_test_missed",
-//       image: "8pique.png",
-//     },
-//   },
-//   "intro_test_missed",
-//   "timer",
-//   ["1pique.png", "2pique.png", "3pique.png", "blank.png"],
-//   true
-// );
+export const right_1_1_1 = new event(
+  //story
+  `Dissimulée sous un manteau d’imperceptibilité, une dryade se dévoile, elle vous regarde brièvement puis prend la parole d’une voix fluette : “Dorénavant, le jour ne se lèvera point et les nuits feront des rondes. Sous la lune agitée, les marées danseront jusqu’à l’extinction et les prières des vivants se tairont dans les précipices de la disgrâce.”`,
+  //choices
+  {
+    choice1: {
+      text: "Continuer.",
+      direction: "right_1_1_1_next"
+    }
+  }
+)
 
-// export const intro_test_success = new event("Timer réussi !");
+export const right_1_1_1_next = new event(
+  //story
+  `“Les forêts perdront leur croûte d’acier et les rancœurs engendreront l’obsession cruelle de répandre la putréfaction sur les corps dénués de vigueur. Entendez-vous le glas ?”, vous demande la dryade en pointant son visage rougissant dans votre direction.`,
+  //choices
+  {
+    choice1: {
+      text: "Continuer.",
+      direction: "right_1_1_1_next_1"
+    }
+  }
+)
 
-// export const intro_test_missed = new event("Timer échec !");
-
+export const right_1_1_1_next_1 = new event(
+  //story
+  `“Maintenant rappelez-vous, qu’est-ce qui dansera jusqu’à l’extinction ?”`,
+  //choices
+  {
+    choice1: {
+      text: "Les nuits.",
+      direction: ""
+    },
+    choice2: {
+      text: "Les précipices.",
+      direction: ""
+    },
+    choice3: {
+      text: "Les marées.",
+      direction: ""
+    }
+  }
+)
 //#endregion

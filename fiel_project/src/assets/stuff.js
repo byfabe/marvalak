@@ -28,7 +28,7 @@ class stuff {
 //#region FIOLE DE VIE
 export const fioleDeVie = new stuff(
   //name
-  "fiole de vie",
+  "Fiole de vie",
   //description
   "Une petite fiole en verre contenant un liquide rougeâtre.",
   //categoryObject
@@ -45,7 +45,7 @@ export const fioleDeVie = new stuff(
 //#region BOURSE2
 export const bourse2 = new stuff(
   //name
-  "bourse",
+  "Bourse",
   //description
   "Une bourse en cuir.",
   //categoryObject
@@ -79,7 +79,7 @@ export const clef_gorges = new stuff(
 //#region BAGUE DE PERCEPTION +2
 export const anneau_neuf_sens = new stuff(
   //name
-  "Anneau neuf sens",
+  "Anneau neuf-sens",
   //description
   "Un anneau ésotérique qui s'adpate à la taille de votre doigt. Il augmente la perception.",
   //categoryObject
@@ -90,5 +90,22 @@ export const anneau_neuf_sens = new stuff(
   +2,
   //color
   "rgb(46, 4, 24);"
+);
+//#endregion
+
+//#region CHAMPIGNON
+export const champignon = new stuff(
+  //name
+  "Nez-de-chat",
+  //description
+  "Un champignon qui émet une faible lueur verte.",
+  //categoryObject
+  "objets",
+  //categoryEffect
+  "perception",
+  //effect
+  +1,
+  //color
+  "rgb(61, 95, 26);"
 );
 //#endregion

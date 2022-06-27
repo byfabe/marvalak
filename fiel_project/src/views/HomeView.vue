@@ -55,6 +55,7 @@
           <li
             v-html="item.text"
             class="choice"
+            :class="item.class"
             v-for="item in event.choices"
             :key="item"
             @click="direction(item), fadeText()"
@@ -179,23 +180,20 @@
 import Popper from "vue3-popper";
 import { mapGetters } from "vuex";
 import Inventaire from "@/components/Inventaire.vue";
-import Dice from "@/components/Dice.vue";
 import * as event from "@/assets/event.js";
 import * as bestiary from "@/assets/bestiary.js";
-import * as test from "@/assets/test.js";
 import DiceBox from "@3d-dice/dice-box";
 
 export default {
   name: "HomeView",
   components: {
     Inventaire,
-    Dice,
     Popper,
   },
   data() {
     return {
       //current event
-      event: event.intro_test_meet_2,
+      event: event.intro_0_0,
 
       //Inventory
 
@@ -222,16 +220,10 @@ export default {
   methods: {
     //Importe le nouvel objet dans "this.event" selon la valeur de la clé "direction"
     direction(item) {
-      if (item.direction.includes("intro")) {
-        this.event = event[item.direction];
-      }
-      //Si l'event est un combat
-      else if (item.direction.includes("bestiary")) {
+      if (item.direction.includes("bestiary")) {
         this.event = bestiary[item.direction];
-
-        //Si l'event est un test
-      } else if (item.direction.includes("test")) {
-        this.event = test[item.direction];
+      } else {
+        this.event = event[item.direction];
       }
 
       // Si il y a un timer se dirige vers la direction au bout de 10s
@@ -257,17 +249,20 @@ export default {
       this.valueRollTest = undefined;
       this.win = false;
       this.lose = false;
+      if (this.event.timerTrue === undefined) {
+        clearTimeout(this.timer);
+      }
     },
 
     //Clear le setTimeout si il y a un timer d'actif
     //Lance un nouveau setTimeout avec run()
     //Retire la classe "timer" pour reset l'animation
     runTimer() {
-      let classTime = document.querySelector('.time')
+      let classTime = document.querySelector(".time");
       if (this.timer !== null) {
         clearTimeout(this.timer);
         this.timer = null;
-        classTime.classList.remove('timer', "anim")
+        classTime.classList.remove("timer", "anim");
       }
       this.run(classTime);
     },
@@ -280,7 +275,9 @@ export default {
         this.fadeText();
       }, 10000);
       setTimeout(() => {
-        classTime.classList.add('timer', "anim")
+        if (this.timer == null) {
+          classTime.classList.add("timer", "anim");
+        }
       }, 100);
     },
 
@@ -623,6 +620,9 @@ export default {
 }
 .cursor-select {
   cursor: url("../assets/images/use.cur"), auto;
+}
+.pointer-event {
+  pointer-events: none;
 }
 @keyframes fade {
   0% {
