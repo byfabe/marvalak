@@ -1,5 +1,10 @@
 <template>
   <div class="home" id="home">
+    <!-- LOADER -->
+    <div class="loader">
+      <p>Veuillez patienter</p>
+    </div>
+
     <div id="dice-box"></div>
     <Inventaire />
     <img class="map" src="@/assets/images/map2.png" alt="" draggable="false" />
@@ -463,6 +468,13 @@ export default {
       }, 900);
     },
 
+    //Quand la page est chargée cache le loader
+    onWindowLoad() {
+      let loader = document.querySelector(".loader");
+      setTimeout(() => {
+        loader.classList.add("hide-loader");
+      }, 2000);
+    },
     //EXEMPLE PARENT/ENFANT
     // diceValueRoll(value) {
     //   if (this.valueRoll === undefined) {
@@ -486,6 +498,11 @@ export default {
     //   false
     // );
   },
+
+  //Affiche le loader tant que la page n'est pas chargée
+  created() {
+    window.addEventListener("load", this.onWindowLoad);
+  },
 };
 </script>
 
@@ -496,7 +513,6 @@ export default {
   align-items: center;
   width: 100%;
   height: 100vh;
-  background: #412407;
   background-image: url("../assets/images/bg50.png");
   background-size: 100% 100vh;
   background-position: center;
@@ -602,6 +618,32 @@ export default {
     }
   }
 }
+.loader {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: #b9ab96;
+  & p {
+    width: 50%;
+    font-family: Aquifer;
+    color: rgba(0, 0, 0, 0.795);
+    font-size: 1.5vw;
+    text-align: center;
+    &::after {
+      content: "\2026";
+      display: inline-block;
+      vertical-align: bottom;
+      animation: loader-dots 4s infinite;
+      animation-fill-mode: fowards;
+      overflow: hidden;
+      width: 1.25em;
+    }
+  }
+}
 :deep(.anim) {
   animation: fade 0.9s ease-in-out;
 }
@@ -623,6 +665,9 @@ export default {
 }
 .pointer-event {
   pointer-events: none;
+}
+.hide-loader {
+  animation: fadeLoader 1s ease-in-out forwards;
 }
 @keyframes fade {
   0% {
@@ -673,6 +718,22 @@ export default {
   }
   100% {
     content: "\f54c";
+  }
+}
+@keyframes loader-dots {
+  50% {
+    width: 0em;
+  }
+  100% {
+    width: 1.25em;
+  }
+}
+@keyframes fadeLoader {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 .castle {
@@ -756,4 +817,24 @@ export default {
     display: block;
   }
 }
+
+// .dots {
+//   display: inline;
+//   width: 24px;
+//   height: 50%;
+//   background: radial-gradient(
+//       circle closest-side,
+//       rgba(0, 0, 0, 0.795) 90%,
+//       #0000
+//     )
+//     0 0/33% 100% space;
+//   clip-path: inset(0 100% 0 0);
+//   animation: dots-e3xtdg 2.0999999999999996s steps(4) infinite;
+// }
+
+// @keyframes dots-e3xtdg {
+//   to {
+//     clip-path: inset(0 -34% 0 0);
+//   }
+// }
 </style>
