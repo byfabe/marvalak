@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
 
-    character: { name: "Gurthang", title: "~ le fer de la mort" },
+    character: { name: "Vous", title: "~ l'inculte" },
 
     inventory: {
 

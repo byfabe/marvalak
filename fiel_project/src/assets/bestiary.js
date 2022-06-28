@@ -1,52 +1,28 @@
 import * as stuff from "@/assets/stuff.js";
 
-// export const bestiary_0_0 = {
-//   audio: "heavyDoorOpen.mp3",
-//   text: "Une créature aux dents longues s'avance vers vous, le combat commence. ",
-//   choices: {
-//     choice1: {
-//       text: "vous tentez de prendre la fuite",
-//       direction: "bestiary_0_1",
-//     },
-//     conjunction: { text: "ou" },
-//     choice2: {
-//       text: "vous vous préparez au combat.",
-//       direction: "bestiary_0_2",
-//     },
-//   },
-// };
-
-// export const bestiary_0_1 = {
-//   text: "La fuite.",
-//   result: {
+//#region MODEL BESTIARY
+// export const beastHere = new fight(
+//   //text
+//   `Vous vous préparez au combat.`,
+//   //name
+//   ``,
+//   //strength
+//   0,
+//   //result
+//   {
 //     win: {
-//       text: "֎ Fuite ok",
-//       direction: "intro_0_1",
-//     },
-//     conjunction: { text: "ou" },
-//     lose: {
-//       text: "֎ fuite ko",
-//       direction: "intro_0_2",
-//     },
-//   },
-// };
-
-// export const bestiary_0_2 = {
-//   text: "Vous vous préparez au combat.",
-//   name: "Chimère aux dents longues",
-//   strength: 1,
-//   fight: true,
-//   result: {
-//     win: {
-//       text: "Vous gagnez le combat.",
-//       direction: "intro_0_1",
+//       text: ``,
+//       direction: "",
 //     },
 //     lose: {
-//       text: "Vous perdez le combat.",
-//       direction: "intro_0_1",
+//       text: `Vous perdez 0<i class="fa-solid fa-shield-heart">.`,
+//       direction: "",
+//       categoryEffect: "pv",
+//       effect: -0,
 //     },
-//   },
-// };
+//   }
+// );
+//#endregion
 
 class fight {
   constructor(text, name, strength, result) {
@@ -57,7 +33,12 @@ class fight {
     this.fight = true;
   }
 }
-
+class fightEvent {
+  constructor(text, choices) {
+    this.text = text;
+    this.choices = choices;
+  }
+}
 //#region exemple stuff/effect
 // {
 //   win: {
@@ -123,3 +104,80 @@ export const bestiary_voyou_des_bois = new fight(
 );
 //#endregion
 
+//#region VIEIL OURS
+export const bestiary_vieil_ours = new fight(
+  //text
+  `Vous vous préparez au combat.`,
+  //name
+  `Vieil ours`,
+  //strength
+  3,
+  //result
+  {
+    win: {
+      text: `Vous annihilez la volonté de l'ours, il s'enfuit.`,
+      direction: "intro_4_0",
+    },
+    lose: {
+      text: `Vous perdez 2<i class="fa-solid fa-shield-heart">.`,
+      direction: "intro_4_0",
+      categoryEffect: "pv",
+      effect: -2,
+    },
+  }
+);
+//#endregion
+
+//#region BOA EMERAUDE
+export const bestiary_boa_emeraude = new fight(
+  //text
+  `Vous vous préparez au combat.`,
+  //name
+  `Boa émeraude`,
+  //strength
+  1,
+  //result
+  {
+    win: {
+      text: `Vous vous apprêtez à arracher la tête du serpent, mais ce dernier émet un petit son.`,
+      direction: "bestiary_boa_emeraude_1",
+    },
+    lose: {
+      text: `Vous perdez 1<i class="fa-solid fa-shield-heart">.`,
+      direction: "intro_5_0",
+      categoryEffect: "pv",
+      effect: -1,
+    },
+  }
+);
+
+export const bestiary_boa_emeraude_1 = new fightEvent(
+  //story
+  `“Par pitsssié, ne me tsssué pas, dit le boa, je vais vous révéler un sssecret si vous me laisssez en vie.”`,
+  //choices
+  {
+    choice1: {
+      text: "Faire confiance au boa.",
+      direction: "bestiary_boa_emeraude_2"
+    },
+    choice2: {
+      text: "Briser les os du serpent.",
+      direction: "intro_5_0"
+    }
+  }
+)
+
+export const bestiary_boa_emeraude_2 = new fightEvent(
+  //story
+  `Vous détendez vos mains pour relâcher la pression émise sur le serpent, ce dernier se trémousse frénétiquement et vous mord:  “Ssstupide !, s'exclame t-il avant de s'enfuir.”`,
+  //choices
+  {
+    choice1: {
+      text: `Vous perdez 1<i class="fa-solid fa-shield-heart">.`,
+      direction: "intro_5_0",
+      categoryEffect: "pv",
+      effect: -1,
+    },
+  }
+)
+//#endregion

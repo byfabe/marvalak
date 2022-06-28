@@ -35,7 +35,7 @@
           </div>
           <div>
             <i class="fa-solid fa-bacon"></i> Célérité
-            <span>{{ getInventory.dexterity }}</span>
+            <span>{{ getInventory.celerite }}</span>
           </div>
           <div>
             <i class="fa-solid fa-hurricane"></i> Perception

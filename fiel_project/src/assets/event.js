@@ -402,10 +402,10 @@ export const intro_test_meet_1 = new test(
       hability: "meetTest",
       valueTest: 4,
       success: {
-        direction: "intro_4_0",
+        direction: "bestiary_voyou_des_bois",
       },
       missed: {
-        direction: "bestiary_voyou_des_bois",
+        direction: "bestiary_vieil_ours",
       },
     },
   },
@@ -578,10 +578,10 @@ export const intro_test_meet_2 = new test(
       hability: "meetTest",
       valueTest: 4,
       success: {
-        direction: "intro_5_0",
+        direction: "intro_cards_player_1",
       },
       missed: {
-        direction: "intro_cards_player_1",
+        direction: "bestiary_boa_emeraude",
       },
     },
   },
@@ -593,7 +593,7 @@ export const intro_test_meet_2 = new test(
 
 export const intro_cards_player_1 = new eventTimer(
   //Text
-  `Une joueuse de cartes solitaire s'approche de vous: “Trouverez-vous la solution ?”`,
+  `Une joueuse de cartes solitaire s'approche de vous: “Trouvez la solution.”`,
   //choicesImg
   {
     choice1: {

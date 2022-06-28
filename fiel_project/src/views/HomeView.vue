@@ -1,15 +1,27 @@
 <template>
   <div class="home" id="home">
+
     <!-- LOADER -->
     <div class="loader">
-      <p>Veuillez patienter</p>
+      <p>Chargement</p>
     </div>
 
+    <!-- DIV QUI CONTIENT LE LANCE DE DES -->
     <div id="dice-box"></div>
+
     <Inventaire />
-    <img class="map" src="@/assets/images/map2.png" alt="" draggable="false" />
+
+    <!-- LA CARTE -->
+    <img
+      class="map"
+      src="@/assets/images/BromeliaCompress.png"
+      alt=""
+      draggable="false"
+    />
+
+    <!-- DIV CONTIENT TOUTE LA ZONE CENTRALE DEBUT-->
     <div class="card">
-      <!-- <div class="illustration"></div> -->
+      
       <!-- ICONES DES EVENEMENTS -->
       <div class="logo">
         <!-- LOGO BOOK EVENT -->
@@ -71,7 +83,7 @@
             <li
               v-for="item in event.choicesImg"
               :key="item"
-              @click="direction(item), fadeText()"
+              @click="direction(item), fadeText(), addTimer()"
             >
               <img
                 class="cursor-select animImage"
@@ -166,9 +178,11 @@
           </div>
         </div>
         <!-- AFFICHE LE COMBAT FIN-->
+
       </div>
       <!-- TOUTE LA ZONE TEXTE FIN -->
     </div>
+    <!-- DIV CONTIENT TOUTE LA ZONE CENTRALE FIN-->
 
     <!-- ILLUSTRATION BOARD -->
     <img
@@ -177,7 +191,6 @@
       alt=""
       draggable="false"
     />
-    <!-- <Dice @diceValue="diceValueRoll" /> -->
   </div>
 </template>
 
@@ -198,7 +211,7 @@ export default {
   data() {
     return {
       //current event
-      event: event.intro_0_0,
+      event: event.intro_test_meet_2,
 
       //Inventory
 
@@ -269,18 +282,23 @@ export default {
         this.timer = null;
         classTime.classList.remove("timer", "anim");
       }
-      this.run(classTime);
+      this.run();
     },
 
     //Timer de 10s > se dirige vers l'event "directionTimer"
-    //Ajoute la classe "timer" pour relancer de zéro l'animation
-    run(classTime) {
+    run() {
       this.timer = setTimeout(() => {
         this.event = event[this.event.directionTimer];
         this.fadeText();
       }, 10000);
+    },
+
+    //Ajoute les class "timer" et "anim" sur ".time" si elles n'existent pas
+    // Reset le timer (css)
+    addTimer() {
+      let classTime = document.querySelector(".time");
       setTimeout(() => {
-        if (this.timer == null) {
+        if (!classTime.classList.contains("timer")) {
           classTime.classList.add("timer", "anim");
         }
       }, 100);
@@ -473,7 +491,7 @@ export default {
       let loader = document.querySelector(".loader");
       setTimeout(() => {
         loader.classList.add("hide-loader");
-      }, 2000);
+      }, 1500);
     },
     //EXEMPLE PARENT/ENFANT
     // diceValueRoll(value) {
@@ -498,9 +516,8 @@ export default {
     //   false
     // );
   },
-
-  //Affiche le loader tant que la page n'est pas chargée
   created() {
+    //Affiche le loader tant que la page n'est pas chargée
     window.addEventListener("load", this.onWindowLoad);
   },
 };
@@ -519,7 +536,7 @@ export default {
   & .map {
     position: absolute;
     z-index: 200;
-    top: -95%;
+    top: -96%;
     transform: rotate(10deg);
     width: 60%;
     transition: all 0.5s ease-in-out;
@@ -629,7 +646,7 @@ export default {
   background: #b9ab96;
   & p {
     width: 50%;
-    font-family: Aquifer;
+    font-family: Georgia, serif;
     color: rgba(0, 0, 0, 0.795);
     font-size: 1.5vw;
     text-align: center;
@@ -734,6 +751,7 @@ export default {
   }
   100% {
     opacity: 0;
+    visibility: hidden;
   }
 }
 .castle {
@@ -817,24 +835,4 @@ export default {
     display: block;
   }
 }
-
-// .dots {
-//   display: inline;
-//   width: 24px;
-//   height: 50%;
-//   background: radial-gradient(
-//       circle closest-side,
-//       rgba(0, 0, 0, 0.795) 90%,
-//       #0000
-//     )
-//     0 0/33% 100% space;
-//   clip-path: inset(0 100% 0 0);
-//   animation: dots-e3xtdg 2.0999999999999996s steps(4) infinite;
-// }
-
-// @keyframes dots-e3xtdg {
-//   to {
-//     clip-path: inset(0 -34% 0 0);
-//   }
-// }
 </style>
